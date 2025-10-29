@@ -1,5 +1,5 @@
 // ====================== IMPORTS ======================
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link } from "react-router-dom";
 
 // ====================== COMPONENT ======================
 function CourseDetail() {
@@ -24,7 +24,7 @@ function CourseDetail() {
           <p>
             Using a combination of grid and utility classes, cards can be made
             horizontal in a mobile-friendly and responsive way. In the example
-            below, we remove the grid gutters with <code>.g-0</code> and use{' '}
+            below, we remove the grid gutters with <code>.g-0</code> and use{" "}
             <code>.col-md-*</code> classes to make the card horizontal at the md
             breakpoint. Further adjustments may be needed depending on your card
             content.
@@ -46,23 +46,32 @@ function CourseDetail() {
         <ul className="list-group list-group-flush">
           <li className="list-group-item">
             Introduction
-            <button className="btn btn-sm btn-danger float-end">
-              <i className="bi bi-youtube"></i>
-            </button>
+            <span className="float-end">
+              <span className="me-5">1 Hour 30 Minutes</span>
+              <button className="btn btn-sm btn-danger">
+                <i className="bi-youtube">x</i>
+              </button>
+            </span>
+          </li>
+          
+          <li className="list-group-item">
+            Introduction
+            <span className="float-end">
+              <span className="me-5">1 Hour 30 Minutes</span>
+              <button className="btn btn-sm btn-danger">
+                <i className="bi-youtube">x</i>
+              </button>
+            </span>
           </li>
 
           <li className="list-group-item">
             Introduction
-            <button className="btn btn-sm btn-danger float-end">
-              <i className="bi bi-youtube"></i>
-            </button>
-          </li>
-
-          <li className="list-group-item">
-            Introduction
-            <button className="btn btn-sm btn-danger float-end">
-              <i className="bi bi-youtube"></i>
-            </button>
+            <span className="float-end">
+              <span className="me-5">1 Hour 30 Minutes</span>
+              <button className="btn btn-sm btn-danger">
+                <i className="bi-youtube">x</i>
+              </button>
+            </span>
           </li>
         </ul>
       </div>
@@ -75,11 +84,7 @@ function CourseDetail() {
         <div className="col-md-3">
           <div className="card">
             <Link to="/detail/1">
-              <img
-                src="/logo512.png"
-                className="card-img-top"
-                alt="..."
-              />
+              <img src="/logo512.png" className="card-img-top" alt="..." />
             </Link>
             <div className="card-body">
               <h5 className="card-title">
@@ -93,11 +98,7 @@ function CourseDetail() {
         <div className="col-md-3">
           <div className="card">
             <a href="#">
-              <img
-                src="/logo512.png"
-                className="card-img-top"
-                alt="..."
-              />
+              <img src="/logo512.png" className="card-img-top" alt="..." />
             </a>
             <div className="card-body">
               <h5 className="card-title">
