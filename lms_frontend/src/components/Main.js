@@ -5,8 +5,13 @@ import About from "./About";
 import CourseDetail from "./CourseDetail";
 import Login from "./User/Login";
 import Register from "./User/Register";
+
 import Dashboard from "./User/Dashboard";
 import FavoriteCourses from "./User/FavoriteCourses"; 
+// Teacher
+import TeacherRegister from "./Teacher/TeacherRegister";
+import TeacherLogin from "./Teacher/TeacherLogin";
+import TeacherDashboard from "./Teacher/TeacherDashboard";
 
 import { Route, Routes as Swicth} from "react-router-dom";
 import MyCourses from "./User/MyCourses";
@@ -30,6 +35,9 @@ function App() {
             <Route path="/recommended-courses" element ={<RecommendedCourses />} />
             <Route path="/profile-setting" element ={<ProfileSetting />} />
             <Route path="/change-password" element ={<ChangePassword />} />
+            <Route path="/teacher-login" element ={<TeacherLogin />} />
+            <Route path="/teacher-register" element ={<TeacherRegister />} />
+            <Route path="/teacher-dashboard" element ={<TeacherDashboard />} />
         </Swicth>
         <Footer />
     </div>
