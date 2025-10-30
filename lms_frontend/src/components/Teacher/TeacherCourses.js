@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import SideBar from "./SideBar";
+import TeacherSidebar from "./TeacherSidebar";
 
 function MyCourses() {
   return (
@@ -7,7 +7,7 @@ function MyCourses() {
       <div className="row">
         {/* Cột bên trái: Menu điều hướng Dashboard */}
         <aside className="col-md-3">
-          <SideBar />
+          <TeacherSidebar />
         </aside>
 
         {/* Cột bên phải: Nội dung My Courses */}
@@ -19,7 +19,7 @@ function MyCourses() {
                 <thead>
                   <tr>
                     <th>Name</th>
-                    <th>Created By</th>
+                    <th>Total Enrolled</th>
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -27,7 +27,7 @@ function MyCourses() {
                   <tr>
                     <td>Php Development</td>
                     <td>
-                      <Link to="/">Suraj Kumar</Link>
+                      <Link to="/">123</Link>
                     </td>
                     <td>
                       <button className="btn btn-primary btn-sm active">

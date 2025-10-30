@@ -1,7 +1,7 @@
 // Import Link để điều hướng giữa các trang trong React
 import { Link } from "react-router-dom";
 // Import Sidebar để hiển thị menu bên trái
-import SideBar from "./SideBar";
+import TeacherSidebar from "./TeacherSidebar";
 
 // Component ProfileSetting: hiển thị trang cài đặt thông tin người dùng
 function ProfileSetting() {
@@ -11,7 +11,7 @@ function ProfileSetting() {
       <div className="row">
         {/* Cột bên trái: hiển thị menu điều hướng Dashboard */}
         <aside className="col-md-3">
-          <SideBar />
+          <TeacherSidebar />
         </aside>
 
         {/* Cột bên phải: hiển thị nội dung chính của trang (Profile Setting) */}
