@@ -3,6 +3,8 @@ import Header from "./Header";
 import Footer from "./Footer";
 import About from "./About";
 import CourseDetail from "./CourseDetail";
+
+//Users
 import Login from "./User/Login";
 import Register from "./User/Register";
 
@@ -24,6 +26,7 @@ import TeacherChangePassword from './Teacher/TeacherChangePassword';
 
 
 import { Routes as Switch, Route } from 'react-router-dom';
+import TeacherDetail from "./TeacherDetail";
 
 
 function App() {
@@ -49,7 +52,8 @@ function App() {
         <Route path="/teacher-courses" element={<TeacherCourses />} />
         <Route path="/teacher-profile-setting" element={<TeacherProfileSetting />} />
         <Route path="/teacher-change-password" element={<TeacherChangePassword />} />
-        <Route path="/user-list" element={<UserList />} />
+        <Route path="/teacher-detail/:teacher_id" element={<TeacherDetail />} />
+        <Route path="/teacher-users" element={<UserList />} />
       </Switch>
       <Footer />
     </div>
