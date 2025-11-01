@@ -15,19 +15,21 @@ import RecommendedCourses from "./User/RecommendedCourses";
 import ProfileSetting from "./User/ProfileSetting";
 import ChangePassword from "./User/ChangePassword";
 // Teachers
-import TeacherRegister from './Teacher/TeacherRegister';
-import TeacherLogin from './Teacher/TeacherLogin';
-import TeacherDashboard from './Teacher/TeacherDashboard';
-import TeacherCourses from './Teacher/TeacherCourses';
-import AddCourse from './Teacher/AddCourse';
-import UserList from './Teacher/UserList';
-import TeacherProfileSetting from './Teacher/TeacherProfileSetting';
-import TeacherChangePassword from './Teacher/TeacherChangePassword';
+import TeacherRegister from "./Teacher/TeacherRegister";
+import TeacherLogin from "./Teacher/TeacherLogin";
+import TeacherDashboard from "./Teacher/TeacherDashboard";
+import TeacherCourses from "./Teacher/TeacherCourses";
+import AddCourse from "./Teacher/AddCourse";
+import UserList from "./Teacher/UserList";
+import TeacherProfileSetting from "./Teacher/TeacherProfileSetting";
+import TeacherChangePassword from "./Teacher/TeacherChangePassword";
 
-
-import { Routes as Switch, Route } from 'react-router-dom';
+import { Routes as Switch, Route } from "react-router-dom";
 import TeacherDetail from "./TeacherDetail";
-
+import AllCourses from "./AllCourses";
+import PopularCourses from "./PopularCourses";
+import PopularTeachers from "./PopularTeachers";
+import CategoryCourses from "./CategoryCourses";
 
 function App() {
   return (
@@ -50,10 +52,20 @@ function App() {
         <Route path="/teacher-dashboard" element={<TeacherDashboard />} />
         <Route path="/add-course" element={<AddCourse />} />
         <Route path="/teacher-courses" element={<TeacherCourses />} />
-        <Route path="/teacher-profile-setting" element={<TeacherProfileSetting />} />
-        <Route path="/teacher-change-password" element={<TeacherChangePassword />} />
+        <Route
+          path="/teacher-profile-setting"
+          element={<TeacherProfileSetting />}
+        />
+        <Route
+          path="/teacher-change-password"
+          element={<TeacherChangePassword />}
+        />
         <Route path="/teacher-detail/:teacher_id" element={<TeacherDetail />} />
         <Route path="/teacher-users" element={<UserList />} />
+        <Route path="/all-courses" element={<AllCourses />} />
+        <Route path="/popular-courses" element={<PopularCourses />} />
+        <Route path="/popular-teachers" element={<PopularTeachers />} />
+        <Route path="/category/:category_slug" element={<CategoryCourses />} />
       </Switch>
       <Footer />
     </div>

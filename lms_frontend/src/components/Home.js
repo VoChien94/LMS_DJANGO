@@ -1,12 +1,14 @@
 import { Link } from "react-router-dom";
-
+import AllCourses from "./AllCourses";
 function Home() {
   return (
     <div className="container mt-4">
-
       {/* ====================== LATEST COURSES ====================== */}
       <h3 className="pb-1 mb-4">
-        Latest Courses <a href="#" className="float-end">See All</a>
+        Latest Courses{" "}
+        <Link to="/all-courses" className="float-end">
+          See All
+        </Link>
       </h3>
 
       <div className="row">
@@ -29,7 +31,9 @@ function Home() {
               <img src="/logo512.png" className="card-img-top" alt="..." />
             </a>
             <div className="card-body">
-              <h5 className="card-title"><a href="#">Course title</a></h5>
+              <h5 className="card-title">
+                <a href="#">Course title</a>
+              </h5>
             </div>
           </div>
         </div>
@@ -40,7 +44,9 @@ function Home() {
               <img src="/logo512.png" className="card-img-top" alt="..." />
             </a>
             <div className="card-body">
-              <h5 className="card-title"><a href="#">Course title</a></h5>
+              <h5 className="card-title">
+                <a href="#">Course title</a>
+              </h5>
             </div>
           </div>
         </div>
@@ -51,17 +57,21 @@ function Home() {
               <img src="/logo512.png" className="card-img-top" alt="..." />
             </a>
             <div className="card-body">
-              <h5 className="card-title"><a href="#">Course title</a></h5>
+              <h5 className="card-title">
+                <a href="#">Course title</a>
+              </h5>
             </div>
           </div>
         </div>
       </div>
       {/* ==================== END LATEST COURSES ==================== */}
 
-
       {/* ====================== POPULAR COURSES ====================== */}
       <h3 className="pb-1 mb-4 mt-5">
-        Popular Courses <a href="#" className="float-end">See All</a>
+        Popular Courses{" "}
+        <Link to="/popular-courses " className="float-end">
+          See All
+        </Link>
       </h3>
 
       <div className="row">
@@ -71,7 +81,15 @@ function Home() {
               <img src="/logo512.png" className="card-img-top" alt="..." />
             </a>
             <div className="card-body">
-              <h5 className="card-title"><a href="#">Course title</a></h5>
+              <h5 className="card-title">
+                <a href="#">Course title</a>
+              </h5>
+            </div>
+            <div className="card-footer">
+              <div className="title">
+                <span>Rating: 4.5/5</span>
+                <span className="float-end">Views: 74985</span>
+              </div>
             </div>
           </div>
         </div>
@@ -82,7 +100,15 @@ function Home() {
               <img src="/logo512.png" className="card-img-top" alt="..." />
             </a>
             <div className="card-body">
-              <h5 className="card-title"><a href="#">Course title</a></h5>
+              <h5 className="card-title">
+                <a href="#">Course title</a>
+              </h5>
+            </div>
+            <div className="card-footer">
+              <div className="title">
+                <span>Rating: 4.5/5</span>
+                <span className="float-end">Views: 74985</span>
+              </div>
             </div>
           </div>
         </div>
@@ -93,7 +119,15 @@ function Home() {
               <img src="/logo512.png" className="card-img-top" alt="..." />
             </a>
             <div className="card-body">
-              <h5 className="card-title"><a href="#">Course title</a></h5>
+              <h5 className="card-title">
+                <a href="#">Course title</a>
+              </h5>
+            </div>
+            <div className="card-footer">
+              <div className="title">
+                <span>Rating: 4.5/5</span>
+                <span className="float-end">Views: 74985</span>
+              </div>
             </div>
           </div>
         </div>
@@ -104,17 +138,27 @@ function Home() {
               <img src="/logo512.png" className="card-img-top" alt="..." />
             </a>
             <div className="card-body">
-              <h5 className="card-title"><a href="#">Course title</a></h5>
+              <h5 className="card-title">
+                <a href="#">Course title</a>
+              </h5>
+            </div>
+            <div className="card-footer">
+              <div className="title">
+                <span>Rating: 4.5/5</span>
+                <span className="float-end">Views: 74985</span>
+              </div>
             </div>
           </div>
         </div>
       </div>
       {/* ==================== END POPULAR COURSES ==================== */}
 
-
       {/* ====================== POPULAR TEACHERS ===================== */}
       <h3 className="pb-1 mb-4 mt-5">
-        Popular Teachers <a href="#" className="float-end">See All</a>
+        Popular Teachers{" "}
+        <Link to="/popular-teachers" className="float-end">
+          See All
+        </Link>
       </h3>
 
       <div className="row">
@@ -124,7 +168,14 @@ function Home() {
               <img src="/logo512.png" className="card-img-top" alt="..." />
             </a>
             <div className="card-body">
-              <h5 className="card-title"><a href="#">Teacher Name</a></h5>
+              <h5 className="card-title">
+                <a href="#">Teacher Name</a>
+              </h5>
+            </div>
+            <div className="card-footer">
+              <div className="title">
+                <span>Rating: 4.5/5</span>
+              </div>
             </div>
           </div>
         </div>
@@ -135,7 +186,14 @@ function Home() {
               <img src="/logo512.png" className="card-img-top" alt="..." />
             </a>
             <div className="card-body">
-              <h5 className="card-title"><a href="#">Teacher Name</a></h5>
+              <h5 className="card-title">
+                <a href="#">Teacher Name</a>
+              </h5>
+            </div>
+            <div className="card-footer">
+              <div className="title">
+                <span>Rating: 4.5/5</span>
+              </div>
             </div>
           </div>
         </div>
@@ -146,7 +204,14 @@ function Home() {
               <img src="/logo512.png" className="card-img-top" alt="..." />
             </a>
             <div className="card-body">
-              <h5 className="card-title"><a href="#">Teacher Name</a></h5>
+              <h5 className="card-title">
+                <a href="#">Teacher Name</a>
+              </h5>
+            </div>
+            <div className="card-footer">
+              <div className="title">
+                <span>Rating: 4.5/5</span>
+              </div>
             </div>
           </div>
         </div>
@@ -157,13 +222,19 @@ function Home() {
               <img src="/logo512.png" className="card-img-top" alt="..." />
             </a>
             <div className="card-body">
-              <h5 className="card-title"><a href="#">Teacher Name</a></h5>
+              <h5 className="card-title">
+                <a href="#">Teacher Name</a>
+              </h5>
+            </div>
+            <div className="card-footer">
+              <div className="title">
+                <span>Rating: 4.5/5</span>
+              </div>
             </div>
           </div>
         </div>
       </div>
       {/* ==================== END POPULAR TEACHERS ==================== */}
-
 
       {/* ====================== STUDENT TESTIMONIALS ================== */}
       <h3 className="pb-1 mb-4 mt-5">Student Testimonial</h3>
@@ -175,12 +246,26 @@ function Home() {
       >
         {/* Indicators */}
         <div className="carousel-indicators">
-          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0"
-                  className="active" aria-current="true" aria-label="Slide 1" />
-          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
-                  aria-label="Slide 2" />
-          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
-                  aria-label="Slide 3" />
+          <button
+            type="button"
+            data-bs-target="#carouselExampleIndicators"
+            data-bs-slide-to="0"
+            className="active"
+            aria-current="true"
+            aria-label="Slide 1"
+          />
+          <button
+            type="button"
+            data-bs-target="#carouselExampleIndicators"
+            data-bs-slide-to="1"
+            aria-label="Slide 2"
+          />
+          <button
+            type="button"
+            data-bs-target="#carouselExampleIndicators"
+            data-bs-slide-to="2"
+            aria-label="Slide 3"
+          />
         </div>
 
         {/* Slides */}

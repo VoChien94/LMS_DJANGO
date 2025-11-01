@@ -1,7 +1,7 @@
 import { useParams, Link } from "react-router-dom";
-function TeacherDetail(){
-    return (
-       <div className="container mt-3">
+function TeacherDetail() {
+  return (
+    <div className="container mt-3">
       {/* ====================== COURSE INFO SECTION ====================== */}
       <div className="row">
         {/* Course Image */}
@@ -26,10 +26,13 @@ function TeacherDetail(){
           </p>
 
           <p className="fw-bold">
-            Skills: <Link to="/teacher-detail/1">Php</Link>,<Link to="/teacher-detail/1">Python</Link>,
-            <Link to="/teacher-detail/1">Javascripts</Link>
+            Skills: <Link to="/category/php">Php</Link>,
+            <Link to="/category/python">Python</Link>,
+            <Link to="/category/javascripts">Javascripts</Link>
           </p>
-          <p className="fw-bold">Recent Course: <Link to="/teacher-detail/1">ReactJs Course</Link></p>
+          <p className="fw-bold">
+            Recent Course: <Link to="/category/reactjs">ReactJs Course</Link>
+          </p>
 
           <p className="fw-bold">Rating: 4.5/5</p>
         </div>
@@ -40,17 +43,27 @@ function TeacherDetail(){
         <h3 className="card-header">Course List</h3>
 
         <div className="list-group list-group-flush">
-          <Link to ="/detail/1" class="list-group-item list-group-item-action">Php Course 1</Link>
-          <Link to ="/detail/1" class="list-group-item list-group-item-action">Php Course 2</Link>
-          <Link to ="/detail/1" class="list-group-item list-group-item-action">Python Course 1</Link>
-          <Link to ="/detail/1" class="list-group-item list-group-item-action">Python Course 2</Link>
-          <Link to ="/detail/1" class="list-group-item list-group-item-action">Javascript Course 1</Link>
-          <Link to ="/detail/1" class="list-group-item list-group-item-action">Javascript Course 2</Link>
-          
+          <Link to="/detail/1" class="list-group-item list-group-item-action">
+            Php Course 1
+          </Link>
+          <Link to="/detail/1" class="list-group-item list-group-item-action">
+            Php Course 2
+          </Link>
+          <Link to="/detail/1" class="list-group-item list-group-item-action">
+            Python Course 1
+          </Link>
+          <Link to="/detail/1" class="list-group-item list-group-item-action">
+            Python Course 2
+          </Link>
+          <Link to="/detail/1" class="list-group-item list-group-item-action">
+            Javascript Course 1
+          </Link>
+          <Link to="/detail/1" class="list-group-item list-group-item-action">
+            Javascript Course 2
+          </Link>
         </div>
       </div>
-      
     </div>
-    )
+  );
 }
-export default  TeacherDetail;
+export default TeacherDetail;

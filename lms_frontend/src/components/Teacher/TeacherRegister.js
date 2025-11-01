@@ -19,7 +19,7 @@ function TeacherRegister() {
                   <label for="exampleInputEmail1" className="form-label">
                     Full Name
                   </label>
-                  <input type="email" className="form-control" />
+                  <input type="text" className="form-control" />
                 </div>
 
                 {/* Email */}
@@ -29,16 +29,6 @@ function TeacherRegister() {
                   </label>
                   <input type="email" className="form-control" />
                 </div>
-
-                {/* Username */}
-                <div className="mb-3">
-                  <label for="exampleInputEmail1" className="form-label">
-                    Username
-                  </label>
-                  <input type="email" className="form-control" />
-                </div>
-
-                {/* Password */}
                 <div className="mb-3">
                   <label for="exampleInputPassword1" className="form-label">
                     Password
@@ -48,6 +38,19 @@ function TeacherRegister() {
                     className="form-control"
                     id="exampleInputPassword1"
                   />
+                </div>
+                <div className="mb-3">
+                  <label for="exampleInputEmail1" className="form-label">
+                    Qualification
+                  </label>
+                  <input type="text" className="form-control" />
+                </div>
+
+                <div className="mb-3">
+                  <label for="exampleInputEmail1" className="form-label">
+                    Mobile Number
+                  </label>
+                  <input type="number" className="form-control" />
                 </div>
 
                 {/* Interests */}
