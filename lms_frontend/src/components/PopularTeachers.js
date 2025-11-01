@@ -1,6 +1,16 @@
 import React from "react";
 import { Link } from "react-router-dom";
-function PopularTeachers() {
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+
+const baseUrl='http://127.0.0.1:8000/api';
+function PopularTeachers(baseUrl) {
+  const [teacher, setTeacher]=useState(null);
+  useEffect(()=>{
+    axios.get(baseUrl+'/teacher/').then((reponse)=>{
+      console.log(reponse.data);
+    });
+  },[]);
   return (
     <div className="container mt-3">
       {/* ====================== LATEST COURSES ====================== */}

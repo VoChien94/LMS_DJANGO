@@ -1,8 +1,11 @@
 // Import Link để điều hướng giữa các trang React
 import { Link } from "react-router-dom";
-
+import { useEffect } from "react";
 // Component Register hiển thị form đăng ký người dùng
 function TeacherRegister() {
+  useEffect(()=>{
+    document.title ='Teacher Register';
+  });
   return (
     // Khung chính của form (Bootstrap)
     <div className="container mt-4">
