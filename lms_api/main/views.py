@@ -28,7 +28,7 @@ class TeacherDetail(generics.RetrieveUpdateDestroyAPIView):
 def teacher_login(request):
     email=request.POST['email']
     password=request.POST['password']
-    teacherData=models.Teacher.object.get(email=email,password=password)
+    teacherData=models.Teacher.objects.get(email=email,password=password)
     if teacherData:
        return JsonResponse({'bool':True})
     else:

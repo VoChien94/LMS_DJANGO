@@ -52,7 +52,13 @@ function TeacherRegister() {
     }
 
   };
-
+useEffect(()=>{
+  document.title="Teacher Register"
+});
+ const teacherLoginStatus=localStorage.getItem('teacherLoginStatus')
+  if(teacherLoginStatus =='true'){
+      window.location.href ='teacher-dashboard';
+  }
   // End
 
   return (

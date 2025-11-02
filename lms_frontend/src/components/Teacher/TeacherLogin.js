@@ -16,19 +16,26 @@ function TeacherLogin() {
     });
   }
 
-  const submitForm=()=>{
+ const submitForm = (event) => {
+    event.preventDefault();
     const teacherFormData=new FormData;
     teacherFormData.append('email', teacherLoginData.email)
     teacherFormData.append('password', teacherLoginData.password)
     try{
-      axios.post(BASE_URL+'/teacher-login', teacherFormData)
+      axios.post(`${BASE_URL}teacher-login/`, teacherFormData)
       .then((res)=>{
-      console.log(res.data);
+      if(res.data.bool== true){
+        localStorage.setItem('teacherLoginStatus', true);
+        window.location.href ='teacher-dashboard';
+      }
     });
     } catch(error){
       console.log(error);
     }
-    
+ }
+  const teacherLoginStatus=localStorage.getItem('teacherLoginStatus')
+  if(teacherLoginStatus =='true'){
+      window.location.href ='teacher-dashboard';
   }
   useEffect(()=>{
      document.title='Teacher Login'
