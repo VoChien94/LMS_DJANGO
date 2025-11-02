@@ -1,8 +1,38 @@
 // Import Link từ thư viện react-router-dom để có thể dùng thẻ <Link> cho điều hướng
 import { Link } from "react-router-dom";
-
+import { useEffect, useState } from "react";
+import axios from "axios";
+const BASE_URL = 'http://127.0.0.1:8000/api/';
 // Định nghĩa component Login (dạng function component)
 function TeacherLogin() {
+  const[teacherLoginData,setteacherLoginData]=useState({
+    email:'',
+    password:''
+  });
+  const handleChange=(event)=>{
+    setteacherLoginData({
+        ...teacherLoginData,
+        [event.target.name]:event.target.value
+    });
+  }
+
+  const submitForm=()=>{
+    const teacherFormData=new FormData;
+    teacherFormData.append('email', teacherLoginData.email)
+    teacherFormData.append('password', teacherLoginData.password)
+    try{
+      axios.post(BASE_URL+'/teacher-login', teacherFormData)
+      .then((res)=>{
+      console.log(res.data);
+    });
+    } catch(error){
+      console.log(error);
+    }
+    
+  }
+  useEffect(()=>{
+     document.title='Teacher Login'
+  });
   return (
     // container: tạo vùng bao có margin top (mt-4) để form cách trên một đoạn
     <div className="container mt-4">
@@ -19,26 +49,24 @@ function TeacherLogin() {
                 <div className="mb-3"> {/* mb-3: thêm margin dưới */}
                   {/* label liên kết với input thông qua thuộc tính for */}
                   <label for="exampleInputEmail1" className="form-label">
-                    Username
+                    Email
                   </label>
-                  {/* Input type="email" (có thể đổi sang text nếu muốn), class form-control để có style đẹp */}
-                  <input type="email" className="form-control" />
+                  <input type="email" value={teacherLoginData.email} name='email' onChange={handleChange}
+                   className="form-control" />
                 </div>
-
-                {/* Ô nhập Password */}
                 <div className="mb-3">
                   <label for="exampleInputPassword1" className="form-label">
                     Password
                   </label>
                   <input
-                    type="password"
+                    type="password" value={teacherLoginData.password} name='password' onChange={handleChange}
                     className="form-control"
                     id="exampleInputPassword1"
                   />
                 </div>
 
                 {/* Checkbox “Remember Me” */}
-                <div className="mb-3 form-check">
+                {/* <div className="mb-3 form-check">
                   <input
                     type="checkbox"
                     className="form-check-input"
@@ -47,10 +75,10 @@ function TeacherLogin() {
                   <label className="form-check-label" for="exampleCheck1">
                     Remember Me
                   </label>
-                </div>
+                </div> */}
 
                 {/* Nút submit */}
-                <button type="submit" className="btn btn-primary">
+                <button type="submit" onClick={submitForm} className="btn btn-primary">
                   Login
                 </button>
               </form>
