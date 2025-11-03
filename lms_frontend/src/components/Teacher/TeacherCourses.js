@@ -1,7 +1,22 @@
 import { Link } from "react-router-dom";
 import TeacherSidebar from "./TeacherSidebar";
-
+import { useState,useEffect } from "react";
+import axios from 'axios';
+const BASE_URL = 'http://127.0.0.1:8000/api/';
 function MyCourses() {
+  const [courseData,setCourseData]=useState([]);
+
+  useEffect(() => {
+        try {
+            axios.get(`${BASE_URL}teacher-courses/1/`)
+                .then((res) => {
+                    setCourseData(res.data);
+                });
+        } catch (error) {
+            console.log(error);
+        }
+    }, []);
+
   return (
     <div className="container mt-4">
       <div className="row">
@@ -24,18 +39,21 @@ function MyCourses() {
                   </tr>
                 </thead>
                 <tbody>
+                  {courseData.map((course,index)=>
+
                   <tr>
-                    <td>Php Development</td>
+                    <td>{course.title}</td>
                     <td>
                       <Link to="/">123</Link>
                     </td>
                     <td>
-                      <button className="btn btn-danger btn-sm active">
+                      <button className="btn btn-danger btn-sm ">
                         Delete
                       </button>
-                      <Link class="btn btn-success btn-sm active ms-2" to="/add-chapter/2">Add Chapter</Link>
+                      <Link class="btn btn-success btn-sm ms-2" to="/add-chapter/2">Add Chapter</Link>
                     </td>
                   </tr>
+                  )}
                 </tbody>
               </table>
             </div>

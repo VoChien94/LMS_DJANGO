@@ -51,3 +51,13 @@ class CourseList(generics.ListCreateAPIView):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
     permission_classes = [permissions.AllowAny]
+#Specific Teacher Course
+@method_decorator(csrf_exempt, name='dispatch')
+class TeacherCourseList(generics.ListAPIView):
+    serializer_class = CourseSerializer
+    permission_classes = [permissions.AllowAny]
+
+    def get_queryset(self):
+       teacher_id=self.kwargs['teacher_id']
+       teacher=models.Teacher.objects.get(pk=teacher_id)
+       return models.Course.objects.filter(teacher=teacher)
