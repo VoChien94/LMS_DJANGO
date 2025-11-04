@@ -9,6 +9,8 @@ function TeacherLogin() {
     email:'',
     password:''
   });
+
+  const[errorMsg,seterrorMsg]=useState(''); 
   const handleChange=(event)=>{
     setteacherLoginData({
         ...teacherLoginData,
@@ -28,6 +30,8 @@ function TeacherLogin() {
         localStorage.setItem('teacherLoginStatus', true);
         localStorage.setItem('teacherId', res.data.teacherId);
         window.location.href ='/teacher-dashboard';
+      }else{
+        seterrorMsg('Invalid Email or Password!!');
       }
     });
     } catch(error){
@@ -50,7 +54,7 @@ function TeacherLogin() {
           <div className="card"> {/* thẻ card Bootstrap để hiển thị form đẹp */}
             <h5 className="card-header">Teacher Login</h5> {/* tiêu đề của form */}
             <div className="card-body"> {/* phần thân chứa form chính */}
-
+              {errorMsg && <p className="text-danger">{errorMsg}</p>}
               {/* Bắt đầu form đăng nhập */}
               <form>
                 {/* Ô nhập Username */}

@@ -33,8 +33,11 @@ def teacher_login(request):
     password = request.POST.get('password')
     try:
         teacherData = models.Teacher.objects.get(email=email, password=password)
-        return JsonResponse({'bool': True, 'teacherId': teacherData.id})
     except models.Teacher.DoesNotExist:
+        teacherData=None
+    if teacherData:
+        return JsonResponse({'bool': True, 'teacherId': teacherData.id})
+    else:
         return JsonResponse({'bool': False})
 
 
