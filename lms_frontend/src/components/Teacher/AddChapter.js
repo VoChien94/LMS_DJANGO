@@ -1,10 +1,12 @@
 import { Link } from 'react-router-dom';
 import TeacherSidebar from './TeacherSidebar';
 import { useState, useEffect } from 'react';
+import {useParams} from 'react-router-dom';
 import axios from 'axios';
 
 const BASE_URL = 'http://127.0.0.1:8000/api/';
 function AddChapter() {
+    const {course_id}=useParams();
     const [chapterData, setChapterData] = useState({
         title: '',
         description: '',
@@ -33,8 +35,8 @@ function AddChapter() {
     // Gửi form lên server
     const formSubmit = () => {
         const _formData = new FormData();
-    
-        _formData.append('course', 1); // tạm fix id=1 để test
+       
+        _formData.append('course', course_id); // tạm fix id=1 để test
         _formData.append('title', chapterData.title);
         _formData.append('description', chapterData.description);
         _formData.append('video', chapterData.video, chapterData.video.name);
