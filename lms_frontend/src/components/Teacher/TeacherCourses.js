@@ -6,16 +6,19 @@ const BASE_URL = 'http://127.0.0.1:8000/api/';
 function MyCourses() {
   const [courseData,setCourseData]=useState([]);
 
-  useEffect(() => {
-        try {
-            axios.get(`${BASE_URL}teacher-courses/1/`)
-                .then((res) => {
-                    setCourseData(res.data);
-                });
-        } catch (error) {
-            console.log(error);
-        }
-    }, []);
+const teacherId = localStorage.getItem('teacherId');
+
+useEffect(() => {
+    try {
+        axios.get(BASE_URL + 'teacher-courses/' + teacherId + '/')
+            .then((res) => {
+                setCourseData(res.data);
+            });
+    } catch (error) {
+        console.log(error);
+    }
+}, []);
+
 
   return (
     <div className="container mt-4">
@@ -34,6 +37,7 @@ function MyCourses() {
                 <thead>
                   <tr>
                     <th>Name</th>
+                    <th>Image</th>
                     <th>Total Enrolled</th>
                     <th>Action</th>
                   </tr>
@@ -43,6 +47,7 @@ function MyCourses() {
 
                   <tr>
                     <td>{course.title}</td>
+                    <td><img src={course.featured_img} width="80" className="rounded" alt={course.title}/></td>
                     <td>
                       <Link to="/">123</Link>
                     </td>
@@ -50,7 +55,7 @@ function MyCourses() {
                       <button className="btn btn-danger btn-sm ">
                         Delete
                       </button>
-                      <Link class="btn btn-success btn-sm ms-2" to="/add-chapter/2">Add Chapter</Link>
+                      <Link class="btn btn-success btn-sm ms-2" to={`/add-chapter/`+ course.id}>Add Chapter</Link>
                     </td>
                   </tr>
                   )}

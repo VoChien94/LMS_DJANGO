@@ -9,8 +9,8 @@ from rest_framework.response import Response
 from rest_framework.authentication import SessionAuthentication, TokenAuthentication
 
 from . import models
-from .models import Teacher, CourseCategory, Course
-from .serializers import TeacherSerializer, CategorySerializer, CourseSerializer
+from .models import Teacher, CourseCategory, Course,Chapter
+from .serializers import TeacherSerializer, CategorySerializer, CourseSerializer,ChapterSerializer
 
 
 class TeacherList(generics.ListCreateAPIView):
@@ -33,11 +33,11 @@ def teacher_login(request):
     password = request.POST.get('password')
     try:
         teacherData = models.Teacher.objects.get(email=email, password=password)
-        if teacherData:
-            return JsonResponse({'bool': True, 'teacher_id': teacherData.id})
+        return JsonResponse({'bool': True, 'teacherId': teacherData.id})
     except models.Teacher.DoesNotExist:
         return JsonResponse({'bool': False})
-    return JsonResponse({'bool': False})
+
+
 
 
 @method_decorator(csrf_exempt, name='dispatch')
@@ -58,6 +58,11 @@ class TeacherCourseList(generics.ListAPIView):
     permission_classes = [permissions.AllowAny]
 
     def get_queryset(self):
-       teacher_id=self.kwargs['teacher_id']
-       teacher=models.Teacher.objects.get(pk=teacher_id)
-       return models.Course.objects.filter(teacher=teacher)
+        teacher_id = self.kwargs['teacher_id']
+        return models.Course.objects.filter(teacher_id=teacher_id)
+#Chapter
+@method_decorator(csrf_exempt, name='dispatch')
+class ChapterList(generics.ListCreateAPIView):
+    queryset = Chapter.objects.all()
+    serializer_class = ChapterSerializer
+    permission_classes = [permissions.AllowAny]
