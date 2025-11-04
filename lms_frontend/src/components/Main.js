@@ -30,7 +30,7 @@ import { Routes as Switch, Route } from "react-router-dom";
 import TeacherDetail from "./TeacherDetail";
 import AllCourses from "./AllCourses";
 import AllChapters from "./Teacher/CourseChapters";
-
+import EditChapter from "./Teacher/EditChapter.js";
 import PopularCourses from "./PopularCourses";
 import PopularTeachers from "./PopularTeachers";
 import CategoryCourses from "./CategoryCourses";
@@ -70,6 +70,7 @@ function App() {
         <Route path="/teacher-users" element={<UserList />} />
         <Route path="/all-courses" element={<AllCourses />} />
         <Route path="/all-chapters/:course_id" element={<AllChapters />} />
+        <Route path="/edit-chapter/:chapter_id" element={<EditChapter />} />
         <Route path="/popular-courses" element={<PopularCourses />} />
         <Route path="/popular-teachers" element={<PopularTeachers />} />
         <Route path="/category/:category_slug" element={<CategoryCourses />} />
