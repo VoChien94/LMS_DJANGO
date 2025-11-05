@@ -50,6 +50,9 @@ class Course(models.Model):
     def related_videos(self):
         related_videos = Course.objects.filter(techs__icontains=self.techs)
         return serializers.serialize('json', related_videos)
+    def tech_list(self):
+        tech_list = self.techs.split(' ')
+        return tech_list
 
 # Chapter Model
 # =============================
