@@ -56,13 +56,19 @@ class CourseList(generics.ListCreateAPIView):
     permission_classes = [permissions.AllowAny]
 #Specific Teacher Course
 @method_decorator(csrf_exempt, name='dispatch')
-class TeacherCourseList(generics.ListAPIView):
+class TeacherCourseList(generics.ListCreateAPIView):
     serializer_class = CourseSerializer
     permission_classes = [permissions.AllowAny]
 
     def get_queryset(self):
         teacher_id = self.kwargs['teacher_id']
         return models.Course.objects.filter(teacher_id=teacher_id)
+@method_decorator(csrf_exempt, name='dispatch')
+class TeacherCourseDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = models.Course.objects.all()
+    serializer_class = CourseSerializer
+    permission_classes = [permissions.AllowAny]
+
 #Chapter
 @method_decorator(csrf_exempt, name='dispatch')
 class ChapterList(generics.ListCreateAPIView):
