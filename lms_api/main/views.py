@@ -64,9 +64,11 @@ class CourseList(generics.ListCreateAPIView):
         return qs
 
 
-
-
-
+@method_decorator(csrf_exempt, name='dispatch')
+class CourseDetailView(generics.RetrieveAPIView):
+    queryset = models.Course.objects.all()
+    serializer_class = CourseSerializer
+    permission_classes = [permissions.AllowAny]
 
 
 #Specific Teacher Course
@@ -104,4 +106,5 @@ class ChapterDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = models.Chapter.objects.all()
     serializer_class = ChapterSerializer
     permission_classes = [permissions.AllowAny]
+
 

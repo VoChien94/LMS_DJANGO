@@ -1,38 +1,54 @@
 // ====================== IMPORTS ======================
 import { useParams, Link } from "react-router-dom";
+import axios from 'axios';
+import { useState, useEffect } from "react";
+
+const BASE_URL = 'http://127.0.0.1:8000/api/';
 
 // ====================== COMPONENT ======================
 function CourseDetail() {
-  const { course_id } = useParams();
+  const [courseData, setcourseData] = useState([]);
+  const [chapterData, setchapterData] = useState([]);
+  const [teacherData, setteacherData] = useState([]);
+  let { course_id } = useParams();
+
+    useEffect(() => {
+        try {
+            axios.get(BASE_URL + 'course/' + course_id + '/')
+                .then((res) => {
+                    setcourseData(res.data);
+                    setchapterData(res.data.course_chapters);
+                    setteacherData(res.data.teacher);
+                });
+        } catch (error) {
+            console.log(error);
+        }
+    }, []);
+  
 
   return (
-    <div className="container mt-3">
+    <div className="container mt-3 pb-2">
       
       {/* ====================== COURSE INFO SECTION ====================== */}
       <div className="row">
         {/* Course Image */}
         <div className="col-4">
           <img
-            src="/logo512.png"
+            src={courseData.featured_img}
             className="img-thumbnail"
-            alt="Course Image"
+            alt={courseData.title}
           />
         </div>
 
         {/* Course Details */}
         <div className="col-8">
-          <h3>Course Title</h3>
+          <h3>{courseData.title}</h3>
           <p>
-            Using a combination of grid and utility classes, cards can be made
-            horizontal in a mobile-friendly and responsive way. In the example
-            below, we remove the grid gutters with <code>.g-0</code> and use{" "}
-            <code>.col-md-*</code> classes to make the card horizontal at the md
-            breakpoint. Further adjustments may be needed depending on your card
-            content.
+            {courseData.description}
           </p>
 
           <p className="fw-bold">
-            Course By: <Link to="/teacher-detail/1">Teacher 1</Link>
+            Course By: <Link to="/teacher-detail/1"> {teacherData.full_name}</Link>
           </p>
           <p className="fw-bold">Duration: 3 Hours 30 Minutes</p>
           <p className="fw-bold">Total Enrolled: 456 Students</p>
@@ -45,8 +61,9 @@ function CourseDetail() {
         <h3 className="card-header">Course Videos</h3>
 
         <ul className="list-group list-group-flush">
+          {chapterData.map((chapter, index) =>
           <li className="list-group-item">
-            Introduction
+           {chapter.title}
             <span className="float-end">
               <span className="me-5">1 Hour 30 Minutes</span>
               <button
@@ -81,8 +98,8 @@ function CourseDetail() {
                   <div className="modal-body">
                     <div class="ratio ratio-16x9">
                       <iframe
-                        src="https://www.youtube.com/embed/zpOULjyy-n8?rel=0"
-                        title="YouTube video"
+                        src={chapter.video}
+                        title={chapter.title}
                         allowfullscreen
                       ></iframe>
                     </div>
@@ -93,25 +110,7 @@ function CourseDetail() {
             {/*Video Modal Start*/}
           </li>
 
-          <li className="list-group-item">
-            Introduction
-            <span className="float-end">
-              <span className="me-5">1 Hour 30 Minutes</span>
-              <button className="btn btn-sm btn-danger">
-                <i className="bi-youtube">x</i>
-              </button>
-            </span>
-          </li>
-
-          <li className="list-group-item">
-            Introduction
-            <span className="float-end">
-              <span className="me-5">1 Hour 30 Minutes</span>
-              <button className="btn btn-sm btn-danger">
-                <i className="bi-youtube">x</i>
-              </button>
-            </span>
-          </li>
+          )}
         </ul>
       </div>
 
