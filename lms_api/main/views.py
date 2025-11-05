@@ -49,11 +49,26 @@ class CategoryList(generics.ListCreateAPIView):
     serializer_class = CategorySerializer
     permission_classes = [permissions.AllowAny]
 
+
 @method_decorator(csrf_exempt, name='dispatch')
 class CourseList(generics.ListCreateAPIView):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
     permission_classes = [permissions.AllowAny]
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        if 'result' in self.request.GET:
+            limit =int(self.request.GET['result'])
+            qs = models.Course.objects.all().order_by('-id')[:limit]
+        return qs
+
+
+
+
+
+
+
 #Specific Teacher Course
 @method_decorator(csrf_exempt, name='dispatch')
 class TeacherCourseList(generics.ListCreateAPIView):

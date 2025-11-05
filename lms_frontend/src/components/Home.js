@@ -1,10 +1,23 @@
 import { Link } from "react-router-dom";
 import AllCourses from "./AllCourses";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
+
+const BASE_URL = "http://127.0.0.1:8000/api/";
 function Home() {
-  useEffect(()=>{
-    document.title ='LMS | Home Page';
-  });
+  const [courseData, setCourseData] = useState([]);
+
+  // Fetch courses when page load
+  useEffect(() => {
+    try {
+      axios.get(BASE_URL + "course/?result=4")
+        .then((res) => {
+          setCourseData(res.data);
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
   return (
     <div className="container mt-4">
       {/* ====================== LATEST COURSES ====================== */}
@@ -13,60 +26,23 @@ function Home() {
         <Link to="/all-courses" className="float-end">
           See All
         </Link>
+
       </h3>
-
-      <div className="row">
-        <div className="col-md-3">
-          <div className="card">
-            <Link to="/detail/1">
-              <img src="/logo512.png" className="card-img-top" alt="..." />
-            </Link>
-            <div className="card-body">
-              <h5 className="card-title">
-                <Link to="/detail/1">Course title</Link>
-              </h5>
+      <div className="row mb-4">
+        {courseData && courseData.map((course, index) => (
+          <div className="col-md-3 mb-4" key={index}>
+            <div className="card">
+              <Link to={`/detail/${course.id}`}>
+                <img src={course.featured_img} className="card-img-top" alt={course.title} />
+              </Link>
+              <div className="card-body">
+                <h5 className="card-title">
+                  <Link to={`/detail/${course.id}`}>{course.title}</Link>
+                </h5>
+              </div>
             </div>
           </div>
-        </div>
-
-        <div className="col-md-3">
-          <div className="card">
-            <a href="#">
-              <img src="/logo512.png" className="card-img-top" alt="..." />
-            </a>
-            <div className="card-body">
-              <h5 className="card-title">
-                <a href="#">Course title</a>
-              </h5>
-            </div>
-          </div>
-        </div>
-
-        <div className="col-md-3">
-          <div className="card">
-            <a href="#">
-              <img src="/logo512.png" className="card-img-top" alt="..." />
-            </a>
-            <div className="card-body">
-              <h5 className="card-title">
-                <a href="#">Course title</a>
-              </h5>
-            </div>
-          </div>
-        </div>
-
-        <div className="col-md-3">
-          <div className="card">
-            <a href="#">
-              <img src="/logo512.png" className="card-img-top" alt="..." />
-            </a>
-            <div className="card-body">
-              <h5 className="card-title">
-                <a href="#">Course title</a>
-              </h5>
-            </div>
-          </div>
-        </div>
+        ))}
       </div>
       {/* ==================== END LATEST COURSES ==================== */}
 
