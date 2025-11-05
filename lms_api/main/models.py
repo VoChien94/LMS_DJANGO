@@ -21,6 +21,7 @@ class CourseCategory(models.Model):
 # =============================
 class Teacher(models.Model):
     full_name = models.CharField(max_length=100)
+    detail = models.TextField(null=True)
     email = models.CharField(max_length=100, unique=True)
     password = models.CharField(max_length=100)
     qualification = models.CharField(max_length=200)
@@ -37,7 +38,7 @@ class Teacher(models.Model):
 # =============================
 class Course(models.Model):
     category = models.ForeignKey(CourseCategory, on_delete=models.CASCADE)
-    teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
+    teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, related_name='teacher_courses')
     title = models.CharField(max_length=150)
     description = models.TextField()
     featured_img=models.ImageField(upload_to='course_imgs/', null=True)

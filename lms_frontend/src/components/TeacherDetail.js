@@ -1,5 +1,25 @@
 import { useParams, Link } from "react-router-dom";
+import axios from 'axios';
+import { useState, useEffect } from "react";
+
+const BASE_URL = 'http://127.0.0.1:8000/api/';
 function TeacherDetail() {
+  const [teacherData, setteacherData] = useState([]);
+  const [courseData, setcourseData] = useState([]);
+  let { teacher_id } = useParams();
+  useEffect(() => {
+    try {
+      axios.get(BASE_URL + 'teacher/' + teacher_id + '/')
+        .then((res) => {
+          setteacherData(res.data);
+          setcourseData(res.data.teacher_courses);
+
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+
   return (
     <div className="container mt-3">
       {/* ====================== COURSE INFO SECTION ====================== */}
@@ -15,14 +35,9 @@ function TeacherDetail() {
 
         {/* Course Details */}
         <div className="col-8">
-          <h3>John Doe</h3>
+          <h3>{teacherData.full_name}</h3>
           <p>
-            Using a combination of grid and utility classes, cards can be made
-            horizontal in a mobile-friendly and responsive way. In the example
-            below, we remove the grid gutters with <code>.g-0</code> and use{" "}
-            <code>.col-md-*</code> classes to make the card horizontal at the md
-            breakpoint. Further adjustments may be needed depending on your card
-            content.
+            {teacherData.detail}
           </p>
 
           <p className="fw-bold">
@@ -40,27 +55,17 @@ function TeacherDetail() {
 
       {/* ====================== COURSE VIDEOS SECTION ====================== */}
       <div className="card mt-4">
-        <h3 className="card-header">Course List</h3>
+        <h5 className="card-header">Course List</h5>
 
         <div className="list-group list-group-flush">
-          <Link to="/detail/1" class="list-group-item list-group-item-action">
-            Php Course 1
-          </Link>
-          <Link to="/detail/1" class="list-group-item list-group-item-action">
-            Php Course 2
-          </Link>
-          <Link to="/detail/1" class="list-group-item list-group-item-action">
-            Python Course 1
-          </Link>
-          <Link to="/detail/1" class="list-group-item list-group-item-action">
-            Python Course 2
-          </Link>
-          <Link to="/detail/1" class="list-group-item list-group-item-action">
-            Javascript Course 1
-          </Link>
-          <Link to="/detail/1" class="list-group-item list-group-item-action">
-            Javascript Course 2
-          </Link>
+          {courseData.map((course, index) => (
+            <Link
+              to={`/detail/${course.id}`}
+              className="list-group-item list-group-item-action">
+              {course.title}
+            </Link>
+          ))}
+
         </div>
       </div>
     </div>

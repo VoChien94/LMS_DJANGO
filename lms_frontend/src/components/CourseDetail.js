@@ -50,7 +50,7 @@ function CourseDetail() {
           </p>
 
           <p className="fw-bold">
-            Course By: <Link to="/teacher-detail/1"> {teacherData.full_name}</Link>
+            Course By: <Link to={`/teacher-detail/${teacherData.id}`}> {teacherData.full_name}</Link>
           </p>
           <p className="fw-bold">Duration: 3 Hours 30 Minutes</p>
           <p className="fw-bold">Total Enrolled: 456 Students</p>
