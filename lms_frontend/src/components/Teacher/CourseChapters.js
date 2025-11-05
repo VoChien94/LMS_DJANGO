@@ -24,13 +24,40 @@ function CourseChapters() {
     }, []);
     // Delete Data
     const Swal = require('sweetalert2');
-    const handleDeleteClick = () => {
+    const handleDeleteClick = (chapter_id) => {
         Swal.fire({
             title: 'Confirm',
             text: 'Are you sure you want to delete this data?',
             icon: 'info',
             confirmButtonText: 'Continue',
             showCancelButton: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                try {
+                    axios.delete(`${BASE_URL}chapter/${chapter_id}/`)
+                        .then((res) => {
+                            Swal.fire('success', 'Data has been deleted.');
+                            try {
+                                axios.get(BASE_URL + 'course-chapters/' + course_id + '/')
+                                    .then((res) => {
+                                        settotalResult(res.data.length);
+                                        setchapterData(res.data);
+                                    });
+                            } catch (error) {
+                                console.log(error);
+                            }
+                            // console.log(res);
+                            // settotalResult(res.data.length);
+                            // setchapterData(res.data);
+                            // 
+                        });
+                        
+                } catch (error) {
+                    Swal.fire('error', 'Data has not been deleted!');
+                }
+            } else {
+                Swal.fire('error', 'Data has not been deleted!');
+            }
         });
     };
 
@@ -63,15 +90,10 @@ function CourseChapters() {
                                             <td><Link to={`/edit-chapter/` + chapter.id}>{chapter.title}</Link></td>
                                             <td>
                                                 <video controls width="250">
-                                                    <source src="/shared-assets/videos/flower.webm" type="video/webm" />
+                                                    <source src={chapter.video} type="video/webm" />
 
-                                                    <source src="/shared-assets/videos/flower.mp4" type="video/mp4" />
+                                                    <source src={chapter.video} type="video/mp4" />
 
-                                                    Download the
-                                                    <a href="/shared-assets/videos/flower.webm">WEBM</a>
-                                                    or
-                                                    <a href="/shared-assets/videos/flower.mp4">MP4</a>
-                                                    video.
                                                 </video>
                                             </td>
                                             <td>
@@ -81,7 +103,7 @@ function CourseChapters() {
                                                 <Link to={'/edit-chapter/' + chapter.id} className='btn btn-sm text-white btn-info'>
                                                     <i className="bi bi-pencil-square"></i>
                                                 </Link>
-                                                <button onClick={handleDeleteClick} className='btn btn-sm btn-danger ms-1'>
+                                                <button onClick={() => handleDeleteClick(chapter.id)} className='btn btn-sm btn-danger ms-1'>
                                                     <i className="bi bi-trash"></i>
                                                 </button>
 

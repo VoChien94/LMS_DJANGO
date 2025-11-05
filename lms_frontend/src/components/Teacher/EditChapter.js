@@ -35,37 +35,39 @@ function EditChapter() {
         _formData.append('course', chapterData.course);
         _formData.append('title', chapterData.title);
         _formData.append('description', chapterData.description);
-        if (chapterData.video != '') {
-            _formData.append('video', chapterData.video, chapterData.video.name);
+
+        if (chapterData.video && chapterData.video !== '') {
+            _formData.append('video', chapterData.video);
         }
+
         _formData.append('remarks', chapterData.remarks);
 
-        try {
-            axios.post(`${BASE_URL}chapter/` + chapter_id, _formData, {
-                headers: {
-                    'content-type': 'multipart/form-data'
+        axios.put(`${BASE_URL}chapter/${chapter_id}/`, _formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        })
+            .then((res) => {
+                if (res.status === 200) {
+                    Swal.fire({
+                        title: 'Data has been updated successfully!',
+                        icon: 'success',
+                        toast: true,
+                        timer: 3000,
+                        position: 'top-right',
+                        timerProgressBar: true,
+                        showConfirmButton: false
+                    });
                 }
-            })
-                .then((res) => {
-                    if (res.status === 200) {
-                        Swal.fire({
-                            title: 'Data has been updated',
-                            icon: 'success',
-                            toast: true,
-                            timer: 3000,
-                            position: 'top-right',
-                            timerProgressBar: true,
-                            showConfirmButton: false
-                        });
-                    }
 
-                    // console.log(res.data);
-                    window.location.href = '/edit-chapter/1';
-                });
-        } catch (error) {
-            console.log(error);
-        }
+                // Quay lại đúng trang của chapter hiện tại
+                window.location.href = `/edit-chapter/${chapter_id}`;
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     };
+
     useEffect(() => {
         try {
             axios.get(BASE_URL + 'chapter/' + chapter_id + '/')
