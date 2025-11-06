@@ -7,10 +7,10 @@ from rest_framework import generics, permissions, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.authentication import SessionAuthentication, TokenAuthentication
-
+from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from . import models
 from .models import Teacher, CourseCategory, Course,Chapter
-from .serializers import TeacherSerializer, CategorySerializer, CourseSerializer,ChapterSerializer,StudentSerializer
+from .serializers import StudentCourseEnrollSerializer ,TeacherSerializer, CategorySerializer, CourseSerializer,ChapterSerializer,StudentSerializer
 
 
 class TeacherList(generics.ListCreateAPIView):
@@ -138,6 +138,23 @@ def student_login(request):
         studentData=None
     if studentData:
         return JsonResponse({'bool': True, 'studentId': studentData.id})
+    else:
+        return JsonResponse({'bool': False})
+
+@method_decorator(csrf_exempt, name='dispatch')
+class StudentEnrollCourseList(generics.ListCreateAPIView):
+    queryset = models.StudentCourseEnrollment.objects.all()
+    serializer_class = StudentCourseEnrollSerializer
+    permission_classes = [permissions.AllowAny]
+    parser_classes = [MultiPartParser, FormParser, JSONParser]
+
+
+def fetch_enroll_status(request,student_id,course_id):
+    student=models.Student.objects.filter(id=student_id).first()
+    course=models.Course.objects.filter(id=course_id).first()
+    enrollStatus=models.StudentCourseEnrollment.objects.filter(course=course,student=student).count()
+    if enrollStatus:
+        return JsonResponse({'bool': True})
     else:
         return JsonResponse({'bool': False})
 

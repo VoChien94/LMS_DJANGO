@@ -1,12 +1,12 @@
 import { Link } from 'react-router-dom';
 import TeacherSidebar from './TeacherSidebar';
 import { useState, useEffect } from 'react';
-import {useParams} from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
-
+import Swal from 'sweetalert2';
 const BASE_URL = 'http://127.0.0.1:8000/api/';
 function AddChapter() {
-    const {course_id}=useParams();
+    const { course_id } = useParams();
     const [chapterData, setChapterData] = useState({
         title: '',
         description: '',
@@ -15,7 +15,7 @@ function AddChapter() {
     });
 
 
-   
+
     // Khi thay đổi dữ liệu text, select,...
     const handleChange = (event) => {
         setChapterData({
@@ -35,11 +35,12 @@ function AddChapter() {
     // Gửi form lên server
     const formSubmit = () => {
         const _formData = new FormData();
-       
+
         _formData.append('course', course_id); // tạm fix id=1 để test
         _formData.append('title', chapterData.title);
         _formData.append('description', chapterData.description);
         _formData.append('video', chapterData.video, chapterData.video.name);
+      //  _formData.append('video_duration', videoDuration);
         _formData.append('remarks', chapterData.remarks);
 
         try {
@@ -49,8 +50,18 @@ function AddChapter() {
                 }
             })
                 .then((res) => {
-                    // console.log(res.data);
-                    window.location.href='/add-chapter/1';
+                    if (res.status == 200 || res.status == 201) {
+                        Swal.fire({
+                            title: 'Data has been added',
+                            icon: 'success',
+                            toast: true,
+                            timer: 3000,
+                            position: 'top-right',
+                            timerProgressBar: true,
+                            showConfirmButton: false
+                        });
+                        window.location.reload();
+                    }
                 });
         } catch (error) {
             console.log(error);
@@ -70,7 +81,7 @@ function AddChapter() {
                             <form>
                                 <div className="mb-3">
                                     <label htmlFor="title" className="form-label">Title</label>
-                                    <input type="text"  onChange={handleChange}
+                                    <input type="text" onChange={handleChange}
                                         id="title" name="title" className="form-control" />
                                 </div>
 

@@ -2,6 +2,7 @@
 import { useParams, Link } from "react-router-dom";
 import axios from 'axios';
 import { useState, useEffect } from "react";
+import Swal from "sweetalert2";
 const SITE_URL = 'http://127.0.0.1:8000/';
 const BASE_URL = 'http://127.0.0.1:8000/api/';
 
@@ -12,7 +13,10 @@ function CourseDetail() {
   const [teacherData, setteacherData] = useState([]);
   const [relatedcourseData, setrelatedcourseData] = useState([]);
   const [techListData, settechListData] = useState([]);
+  const [userLoginStatus, setuserLoginStatus] = useState();
+  const [enrollStatus, setenrollStatus] = useState();
   let { course_id } = useParams();
+  const studentId = localStorage.getItem('studentId');
 
   useEffect(() => {
     try {
@@ -27,7 +31,60 @@ function CourseDetail() {
     } catch (error) {
       console.log(error);
     }
+
+    //Fetch enroll status 
+    try {
+      axios.get(BASE_URL + 'fetch-enroll-status/' + studentId + '/' + course_id)
+        .then((res) => {
+          if (res.data.bool === true) {          
+            setenrollStatus('success');          
+          } else {
+            setenrollStatus('');                 
+          }
+        });
+    } catch (error) {
+      console.log(error);
+    }
+
+    const studentLoginStatus = localStorage.getItem('studentLoginStatus');
+    if (studentLoginStatus === 'true') {
+      setuserLoginStatus('success');
+    }
   }, []);
+
+
+  const enrollCourse = () => {
+    const studentId = localStorage.getItem('studentId');
+    const _formData = new FormData();
+    _formData.append('course', parseInt(course_id));
+    _formData.append('student', parseInt(studentId));
+
+
+    try {
+      axios.post(`${BASE_URL}student-enroll-course/`, _formData, {
+        headers: {
+          'content-type': 'multipart/form-data'
+        }
+      })
+        .then((res) => {
+          if (res.status == 200 || res.status == 201) {
+            Swal.fire({
+              title: 'You have successfully enrolled in this course',
+              icon: 'success',
+              toast: true,
+              timer: 10000,
+              position: 'top-right',
+              timerProgressBar: true,
+              showConfirmButton: false
+            });
+            setuserLoginStatus('success');
+          }
+        });
+    } catch (error) {
+      console.log(error);
+    }
+
+  }
 
 
   return (
@@ -59,12 +116,24 @@ function CourseDetail() {
               <Link to={`/category/${tech.trim()}`} className='badge badge-pill text-dark bg-warning mr-2'>
                 {tech.trim()}
               </Link>&nbsp;
-              </>
-            )}    
+            </>
+            )}
           </p>
           <p className="fw-bold">Duration: 3 Hours 30 Minutes</p>
           <p className="fw-bold">Total Enrolled: 456 Students</p>
           <p className="fw-bold">Rating: 4.5/5</p>
+          {enrollStatus === 'success' && userLoginStatus === 'success' &&
+            <p><span>You are already enrolled in this course</span></p>
+          }
+
+          {userLoginStatus === 'success' && enrollStatus !== 'success' &&
+            <p><button onClick={enrollCourse} type="button" className="btn btn-success">Enroll in this course</button></p>
+          }
+
+          {userLoginStatus !== 'success' &&
+            <p><Link to="/user-login">Please login to enroll in this course</Link></p>
+          }
+
         </div>
       </div>
 

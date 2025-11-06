@@ -30,7 +30,7 @@ const submitForm = (event) => {
       .then((res)=>{
       if(res.data.bool== true){
         localStorage.setItem('studentLoginStatus', true);
-        localStorage.setItem('studentId', res.data.student_id);
+        localStorage.setItem('studentId', res.data.studentId);
         window.location.href ='/student-dashboard';
       }else{
         seterrorMsg('Invalid Email or Password!!');
