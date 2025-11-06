@@ -55,11 +55,12 @@ function CourseDetail() {
             Course By: <Link to={`/teacher-detail/${teacherData.id}`}> {teacherData.full_name}</Link>
           </p>
           <p className="fw-bold">Techs:&nbsp;
-            {techListData.map((tech, index) =>
+            {techListData.map((tech, index) => <>
               <Link to={`/category/${tech.trim()}`} className='badge badge-pill text-dark bg-warning mr-2'>
-                {tech}
-              </Link>
-            )}
+                {tech.trim()}
+              </Link>&nbsp;
+              </>
+            )}    
           </p>
           <p className="fw-bold">Duration: 3 Hours 30 Minutes</p>
           <p className="fw-bold">Total Enrolled: 456 Students</p>

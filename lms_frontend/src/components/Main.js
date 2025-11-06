@@ -35,6 +35,7 @@ import EditChapter from "./Teacher/EditChapter.js";
 import PopularCourses from "./PopularCourses";
 import PopularTeachers from "./PopularTeachers";
 import CategoryCourses from "./CategoryCourses";
+import TeacherSkillCourses from "./TeacherSkillCourses";
 
 function App() {
   return (
@@ -76,6 +77,8 @@ function App() {
         <Route path="/popular-courses" element={<PopularCourses />} />
         <Route path="/popular-teachers" element={<PopularTeachers />} />
         <Route path="/category/:category_slug" element={<CategoryCourses />} />
+        <Route path="/teacher-skill-courses/:skill_name/:teacher_id" element={<TeacherSkillCourses />} />
+
       </Switch>
       <Footer />
     </div>
