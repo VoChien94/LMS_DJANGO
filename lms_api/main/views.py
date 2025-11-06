@@ -10,7 +10,7 @@ from rest_framework.authentication import SessionAuthentication, TokenAuthentica
 
 from . import models
 from .models import Teacher, CourseCategory, Course,Chapter
-from .serializers import TeacherSerializer, CategorySerializer, CourseSerializer,ChapterSerializer
+from .serializers import TeacherSerializer, CategorySerializer, CourseSerializer,ChapterSerializer,StudentSerializer
 
 
 class TeacherList(generics.ListCreateAPIView):
@@ -120,5 +120,25 @@ class ChapterDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = models.Chapter.objects.all()
     serializer_class = ChapterSerializer
     permission_classes = [permissions.AllowAny]
+
+# Student Data
+@method_decorator(csrf_exempt, name='dispatch')
+class StudentList(generics.ListCreateAPIView):
+    queryset = models.Student.objects.all()
+    serializer_class = StudentSerializer
+    permission_classes = [permissions.AllowAny]
+
+@csrf_exempt
+def student_login(request):
+    email = request.POST.get('email')
+    password = request.POST.get('password')
+    try:
+        studentData = models.Student.objects.get(email=email, password=password)
+    except models.Student.DoesNotExist:
+        studentData=None
+    if studentData:
+        return JsonResponse({'bool': True, 'studentId': studentData.id})
+    else:
+        return JsonResponse({'bool': False})
 
 

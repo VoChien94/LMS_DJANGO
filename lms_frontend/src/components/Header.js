@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
 
 function Header() {
-  const teacherLoginStatus=localStorage.getItem('teacherLoginStatus')
+  const teacherLoginStatus = localStorage.getItem('teacherLoginStatus')
+  const studentLoginStatus = localStorage.getItem('studentLoginStatus')
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <div className="container">
@@ -28,7 +29,7 @@ function Header() {
             <Link className="nav-link" to="/all-courses">
               Courses
             </Link>
-           
+
             <li className="nav-item dropdown">
               <a
                 className="nav-link dropdown-toggle"
@@ -40,19 +41,19 @@ function Header() {
               >
                 Teacher
               </a>
-              <ul className="dropdown-menu" aria-labelledby="navbarDropdown">{teacherLoginStatus!='true'&&
-                 <>
-                <li>
-                  <Link className="dropdown-item" to="/teacher-login">
-                    Login
-                  </Link>
-                </li>
-                <li>
-                  <Link className="dropdown-item" to="teacher-register">
-                    Register
-                  </Link>
-                </li></>
-                }
+              <ul className="dropdown-menu" aria-labelledby="navbarDropdown">{teacherLoginStatus != 'true' &&
+                <>
+                  <li>
+                    <Link className="dropdown-item" to="/teacher-login">
+                      Login
+                    </Link>
+                  </li>
+                  <li>
+                    <Link className="dropdown-item" to="teacher-register">
+                      Register
+                    </Link>
+                  </li></>
+              }
                 <li>
                   <Link className="dropdown-item" to="/teacher-dashboard">
                     Dashboard
@@ -65,7 +66,7 @@ function Header() {
                 </li>
               </ul>
             </li>
-             <li className="nav-item dropdown">
+            <li className="nav-item dropdown">
               <a
                 className="nav-link dropdown-toggle"
                 href="#"
@@ -77,19 +78,19 @@ function Header() {
                 User
               </a>
               <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li>
-                  <Link className="dropdown-item" to="/user-login">
-                    Login
-                  </Link>
-                </li>
-                <li>
-                  <Link className="dropdown-item" to="user-register">
-                    Register
-                  </Link>
-                </li>
-                <li>
-                  <hr className="dropdown-divider" />
-                </li>
+                {studentLoginStatus != 'true' && <>
+                  <li>
+                    <Link className="dropdown-item" to="/user-login">
+                      Login
+                    </Link>
+                  </li>
+                  <li>
+                    <Link className="dropdown-item" to="user-register">
+                      Register
+                    </Link>
+                  </li> </>
+                }
+                {studentLoginStatus == 'true' && <>
                 <li>
                   <Link className="dropdown-item" to="/user-dashboard">
                     Dashboard
@@ -99,12 +100,13 @@ function Header() {
                   <Link className="dropdown-item" to="/user-logout">
                     Logout
                   </Link>
-                </li>
+                </li> </>
+                }
               </ul>
             </li>
-            <Link className="nav-link" to="/about">
+            {/* <Link className="nav-link" to="/about">
               About Us
-            </Link>
+            </Link> */}
           </div>
         </div>
       </div>

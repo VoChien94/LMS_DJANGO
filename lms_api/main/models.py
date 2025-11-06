@@ -79,9 +79,7 @@ class Student(models.Model):
     full_name = models.CharField(max_length=100)
     email = models.CharField(max_length=100, unique=True)
     password = models.CharField(max_length=100)
-    qualification = models.CharField(max_length=200)
-    mobile_no = models.CharField(max_length=20)
-    address = models.TextField()
+    username = models.CharField(max_length=200)
     interested_categories = models.TextField()
 
     class Meta:
