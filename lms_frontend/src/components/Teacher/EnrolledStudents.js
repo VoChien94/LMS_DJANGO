@@ -1,18 +1,17 @@
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import TeacherSidebar from "./TeacherSidebar";
 import { useState, useEffect } from "react";
 import axios from 'axios';
 const BASE_URL = 'http://127.0.0.1:8000/api/';
-function MyCourses() {
-  const [courseData, setCourseData] = useState([]);
-
-  const teacherId = localStorage.getItem('teacherId');
+function EnrolledStudents() {
+  const [StudentData, setStudentData] = useState([]);
+  let { course_id } = useParams();
 
   useEffect(() => {
     try {
-      axios.get(BASE_URL + 'teacher-courses/' + teacherId + '/')
+      axios.get(BASE_URL + 'fetch-enrolled-students/' + course_id + '/')
         .then((res) => {
-          setCourseData(res.data);
+          setStudentData(res.data);
         });
     } catch (error) {
       console.log(error);
@@ -31,49 +30,39 @@ function MyCourses() {
         {/* Cột bên phải: Nội dung My Courses */}
         <div className="col-md-9">
           <div className="card">
-            <h5 className="card-header">My Courses</h5>
+            <h5 className="card-header">Enrolled Student List </h5>
             <div className="card-body">
               <table className="table table-bordered">
                 <thead>
                   <tr>
                     <th>Name</th>
-                    <th>Image</th>
-                    <th>Total Enrolled</th>
+                    <th>Email</th>
+                    <th>Username</th>
                     <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {courseData.map((course, index) =>
+                  {StudentData.map((row, index) =>
 
                     <tr>
                       <td>
-                        <Link to={'/all-chapters/' + course.id}>{course.title}</Link>
+                        <Link to={'/view-student/' + row.student.id}>{row.student.full_name}</Link>
+                      </td>
+                     
+                      <td>
+                       {row.student.email}
                       </td>
                       <td>
-                        <img
-                          src={course.featured_img}
-                          width="80"
-                          className="rounded"
-                          alt={course.title}
-                        />
-                      </td>
-                      <td>
-                        <Link to={`/enrolled-students/`+ course.id}>{course.total_enrolled_students}</Link>
+                       {row.student.username}
                       </td>
                       <td>
                         <Link
                           className="btn btn-info btn-sm"
-                          to={`/edit-course/` + course.id}
+                          to={'/view-student/' + row.student.id}
                         >
-                          Edit
+                          View
                         </Link>
-                        <Link
-                          className="btn btn-success btn-sm ms-2"
-                          to={`/add-chapter/` + course.id}
-                        >
-                          Add Chapter
-                        </Link>
-                        <button className="btn btn-danger btn-sm ms-2">Delete</button>
+                       
                       </td>
                     </tr>
 
@@ -88,4 +77,4 @@ function MyCourses() {
   );
 }
 
-export default MyCourses;
+export default EnrolledStudents;

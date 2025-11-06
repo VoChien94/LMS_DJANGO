@@ -159,3 +159,13 @@ def fetch_enroll_status(request,student_id,course_id):
         return JsonResponse({'bool': False})
 
 
+class EnrolledStudentList(generics.ListAPIView):
+    queryset = models.StudentCourseEnrollment.objects.all()
+    serializer_class = StudentCourseEnrollSerializer
+    permission_classes = [permissions.AllowAny]
+
+    def get_queryset(self):
+        course_id = self.kwargs['course_id']
+        course = models.Course.objects.get(pk=course_id)
+        return models.StudentCourseEnrollment.objects.filter(course=course)
+
