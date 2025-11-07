@@ -10,7 +10,7 @@ from rest_framework.authentication import SessionAuthentication, TokenAuthentica
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from . import models
 from .models import Teacher, CourseCategory, Course,Chapter
-from .serializers import StudentCourseEnrollSerializer ,TeacherSerializer, CategorySerializer, CourseSerializer,ChapterSerializer,StudentSerializer
+from .serializers import StudentCourseEnrollSerializer ,TeacherSerializer, CategorySerializer, CourseSerializer,ChapterSerializer,StudentSerializer,CourseRatingSerializer
 
 
 class TeacherList(generics.ListCreateAPIView):
@@ -148,6 +148,14 @@ class StudentEnrollCourseList(generics.ListCreateAPIView):
     permission_classes = [permissions.AllowAny]
     parser_classes = [MultiPartParser, FormParser, JSONParser]
 
+    def perform_create(self, serializer):
+        course_id = self.request.data.get('course')
+        student_id = self.request.data.get('student')
+        course = models.Course.objects.get(id=course_id)
+        student = models.Student.objects.get(id=student_id)
+        serializer.save(course=course, student=student)
+
+
 
 def fetch_enroll_status(request,student_id,course_id):
     student=models.Student.objects.filter(id=student_id).first()
@@ -169,3 +177,30 @@ class EnrolledStudentList(generics.ListAPIView):
         course = models.Course.objects.get(pk=course_id)
         return models.StudentCourseEnrollment.objects.filter(course=course)
 
+
+class CourseRatingList(generics.ListCreateAPIView):
+    serializer_class = CourseRatingSerializer
+    permission_classes = [permissions.AllowAny]
+
+    def get_queryset(self):
+        course_id = self.kwargs.get('course_id', None)
+        if course_id:
+            course = models.Course.objects.get(pk=course_id)
+            return models.CourseRating.objects.filter(course=course)
+        else:
+            return models.CourseRating.objects.all()
+
+
+    def perform_create(self, serializer):
+        course_id = self.kwargs['course_id']
+        course = models.Course.objects.get(pk=course_id)
+        serializer.save(course=course)
+
+def fetch_rating_status(request,student_id,course_id):
+    student=models.Student.objects.filter(id=student_id).first()
+    course=models.Course.objects.filter(id=course_id).first()
+    ratingStatus=models.CourseRating.objects.filter(course=course,student=student).count()
+    if ratingStatus:
+        return JsonResponse({'bool': True})
+    else:
+        return JsonResponse({'bool': False})
