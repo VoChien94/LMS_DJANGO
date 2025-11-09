@@ -48,6 +48,15 @@ function MyCourses() {
                     <tr>
                       <td>
                         <Link to={'/all-chapters/' + course.id}>{course.title}</Link>
+                        <hr />
+                        {course.course_rating &&
+                          <span>Rating: {course.course_rating}/5</span>
+                        }
+
+                        {!course.course_rating &&
+                          <span>Rating: {course.course_rating}/5</span>
+                        }
+
                       </td>
                       <td>
                         <img
@@ -58,7 +67,7 @@ function MyCourses() {
                         />
                       </td>
                       <td>
-                        <Link to={`/enrolled-students/`+ course.id}>{course.total_enrolled_students}</Link>
+                        <Link to={`/enrolled-students/` + course.id}>{course.total_enrolled_students}</Link>
                       </td>
                       <td>
                         <Link

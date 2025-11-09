@@ -32,7 +32,7 @@ function EditCourse() {
             axios.get(BASE_URL + 'teacher-course-detail/' + course_id + '/')
                 .then((res) => {
                     setCourseData({
-                        category: res.data.category,
+                        category: res.data.category.id,
                         title: res.data.title,
                         description: res.data.description,
                         prev_img: res.data.featured_img,

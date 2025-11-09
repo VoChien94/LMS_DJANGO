@@ -38,7 +38,7 @@ function EnrolledStudents() {
                     <th>Name</th>
                     <th>Email</th>
                     <th>Username</th>
-                    <th>Action</th>
+                    <th>Interested Categories</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -46,7 +46,7 @@ function EnrolledStudents() {
 
                     <tr>
                       <td>
-                        <Link to={'/view-student/' + row.student.id}>{row.student.full_name}</Link>
+                        {row.student.full_name}
                       </td>
                      
                       <td>
@@ -56,12 +56,7 @@ function EnrolledStudents() {
                        {row.student.username}
                       </td>
                       <td>
-                        <Link
-                          className="btn btn-info btn-sm"
-                          to={'/view-student/' + row.student.id}
-                        >
-                          View
-                        </Link>
+                        {row.student.interested_categories}
                        
                       </td>
                     </tr>
