@@ -44,16 +44,11 @@ class Teacher(models.Model):
         return total_chapters
 
     # Total Teacher Students
+    
     def total_teacher_students(self):
-        total_students = (
-            StudentCourseEnrollment.objects
-            .filter(course__teacher=self)
-            .values('student')
-            .distinct()
-            .count()
-        )
+        total_students=StudentCourseEnrollment.objects.filter(course__teacher=self).count()
         return total_students
-
+    
 
 
 
