@@ -10,7 +10,7 @@ from rest_framework.authentication import SessionAuthentication, TokenAuthentica
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from . import models
 from .models import Teacher, CourseCategory, Course,Chapter
-from .serializers import StudentCourseEnrollSerializer ,TeacherSerializer, CategorySerializer, CourseSerializer,ChapterSerializer,StudentSerializer,CourseRatingSerializer
+from .serializers import StudentCourseEnrollSerializer ,TeacherSerializer, CategorySerializer, CourseSerializer,ChapterSerializer,StudentSerializer,CourseRatingSerializer,TeacherDashboardSerializer
 
 
 class TeacherList(generics.ListCreateAPIView):
@@ -26,6 +26,11 @@ class TeacherDetail(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [permissions.AllowAny]
     authentication_classes = [SessionAuthentication, TokenAuthentication]
 
+class TeacherDashboard(generics.RetrieveAPIView):
+    queryset = models.Teacher.objects.all()
+    serializer_class = TeacherDashboardSerializer
+    permission_classes = [permissions.AllowAny]
+    authentication_classes = [SessionAuthentication, TokenAuthentication]
 
 @csrf_exempt
 def teacher_login(request):
