@@ -5,8 +5,16 @@ from . import models
 class TeacherSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Teacher
-        fields = ['id', 'full_name','detail', 'email', 'password', 'qualification', 'mobile_no', 'skills','teacher_courses','skill_list']
+        fields = ['id', 'full_name','email','password','qualification', 'mobile_no', 'skills','profile_img','teacher_courses','skill_list']
         depth=1
+    def __init__(self, *args, **kwargs):
+        super(TeacherSerializer, self).__init__(*args, **kwargs)
+        request = self.context.get('request')
+        self.Meta.depth = 0
+        if request and request.method == 'GET':
+            self.Meta.depth = 1
+
+
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = models.CourseCategory
