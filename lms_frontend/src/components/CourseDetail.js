@@ -17,6 +17,7 @@ function CourseDetail() {
   const [enrollStatus, setenrollStatus] = useState();
   const [ratingStatus, setratingStatus] = useState('');
   const [AvgRating, setAvgRating] = useState(0);
+  const [favoriteStatus, setfavoriteStatus] = useState();
   let { course_id } = useParams();
   const studentId = localStorage.getItem('studentId');
 
@@ -65,6 +66,19 @@ function CourseDetail() {
       console.log(error);
     }
 
+      try {
+      axios.get(BASE_URL + 'fetch-favorite-status/' + studentId + '/' + course_id)
+        .then((res) => {
+          if (res.data.bool === true) {
+            setfavoriteStatus('success');
+          } else {
+            setfavoriteStatus('');
+          }
+        });
+    } catch (error) {
+      console.log(error);
+    }
+
     const studentLoginStatus = localStorage.getItem('studentLoginStatus');
     if (studentLoginStatus === 'true') {
       setuserLoginStatus('success');
@@ -104,6 +118,72 @@ function CourseDetail() {
     }
 
   }
+
+  // Mark as favorite Course
+const markAsFavorite = () => {
+    const _formData = new FormData();
+    _formData.append('course', course_id);
+    _formData.append('student', studentId);
+    _formData.append('status', true);
+    try {
+        axios.post(BASE_URL + 'student-add-favorite-course/', _formData, {
+            headers: {
+                'content-type': 'multipart/form-data'
+            }
+        })
+        .then((res) => {
+            if (res.status === 200 || res.status === 201) {
+                Swal.fire({
+                    title: 'This course has been added in your wish list',
+                    icon: 'success',
+                    toast: true,
+                    timer: 5000,
+                    position: 'top-right',
+                    timerProgressBar: true,
+                    showConfirmButton: false
+                });
+                setfavoriteStatus('success');
+            }
+        });
+    } catch (error) {
+        console.log(error);
+    }
+}
+// End
+// Remove from favorite Course
+const removeFavorite = (pk) => {
+    const _formData = new FormData();
+    _formData.append('course', course_id);
+    _formData.append('student', studentId);
+    _formData.append('status', false);
+    try {
+        axios.get(BASE_URL + 'student-remove-favorite-course/' + course_id + '/' + studentId, {
+            headers: {
+                'content-type': 'multipart/form-data'
+            }
+        })
+        .then((res) => {
+            if (res.status === 200 || res.status === 201) {
+                Swal.fire({
+                    title: 'This course has been removed from your wish list',
+                    icon: 'success',
+                    toast: true,
+                    timer: 5000,
+                    position: 'top-right',
+                    timerProgressBar: true,
+                    showConfirmButton: false
+                });
+                setfavoriteStatus('');
+            }
+        });
+    } catch (error) {
+        console.log(error);
+    }
+}
+// End
+
+
+  //End
   //Add Rating
   const [ratingData, setratingData] = useState({
     rating: '',
@@ -293,6 +373,29 @@ function CourseDetail() {
               </button>
             </p>
           )}
+           {userLoginStatus === "success" && favoriteStatus !=='success' &&(
+            <p>
+              <button
+                onClick={markAsFavorite} title="Add in your favorite course list"
+                type="button"
+                className="btn btn-outline-danger"
+              >
+               <i class="bi bi-heart-fill"></i>
+              </button>
+            </p>
+          )}
+            {userLoginStatus === "success" && favoriteStatus ==='success' &&(
+            <p>
+              <button
+                onClick={removeFavorite} title="Remove from your favorite course list"
+                type="button"
+                className="btn btn-danger"
+              >
+               <i class="bi bi-heart-fill"></i>
+              </button>
+            </p>
+          )}
+
 
           {userLoginStatus !== "success" && (
             <p>
