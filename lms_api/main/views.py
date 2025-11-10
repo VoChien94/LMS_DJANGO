@@ -188,6 +188,12 @@ class StudentFavoriteCourseList(generics.ListCreateAPIView):
     permission_classes = [permissions.AllowAny]
     parser_classes = [MultiPartParser, FormParser, JSONParser]
 
+    def get_queryset(self):
+        if 'student_id' in self.kwargs:
+            student_id = self.kwargs['student_id']
+            student = models.Student.objects.get(pk=student_id)
+            return models.StudentFavoriteCourse.objects.filter(student=student).distinct()
+
 
 def fetch_enroll_status(request, student_id, course_id):
     student = models.Student.objects.filter(id=student_id).first()
