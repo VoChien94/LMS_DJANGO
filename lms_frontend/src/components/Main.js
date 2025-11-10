@@ -26,6 +26,7 @@ import EditCourse from "./Teacher/EditCourse";
 import AddChapter from "./Teacher/AddChapter";
 import UserList from "./Teacher/UserList";
 import AddAssignment from "./Teacher/AddAssignment";
+import ShowAssignment from "./Teacher/ShowAssignment";
 import TeacherProfileSetting from "./Teacher/TeacherProfileSetting";
 import TeacherChangePassword from "./Teacher/TeacherChangePassword";
 
@@ -64,6 +65,7 @@ function App() {
         <Route path="/edit-course/:course_id" element={<EditCourse />} />
         <Route path="/add-chapter/:course_id" element={<AddChapter />} />
         <Route path="/add-assignment/:student_id/:teacher_id" element={<AddAssignment />} />
+        <Route path="/show-assignment/:student_id/:teacher_id" element={<ShowAssignment />} />
         <Route path="/teacher-courses" element={<TeacherCourses />} />
         <Route path="/enrolled-students/:course_id" element={<EnrolledStudents />} />
         <Route
