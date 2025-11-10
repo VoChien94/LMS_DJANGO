@@ -45,7 +45,7 @@ function MyCourses() {
                   <tr>
                     <td> <Link to={`/detail/`+ row.course.id}>{row.course.title}</Link></td>
                     <td>
-                      <Link to="/">{row.course.teacher.full_name}</Link>
+                      <Link to={`/teacher-detail/`+ row.course.teacher.id}>{row.course.teacher.full_name}</Link>
                     </td>
                     <td>
                   

@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
+from django.db.models import Q
 
 from rest_framework import generics, permissions, status
 from rest_framework.views import APIView
@@ -78,8 +79,18 @@ class CourseList(generics.ListCreateAPIView):
             teacher = self.request.GET['teacher']
             teacher = models.Teacher.objects.filter(id=teacher).first()
             qs = models.Course.objects.filter(techs__icontains=skill_name, teacher=teacher)
-
+        elif 'studentId' in self.kwargs:
+            student_id = self.kwargs['studentId']
+            student = models.Student.objects.get(pk=student_id)
+            print(student.interested_categories)
+            queries = [Q(techs__iendswith=value) for value in student.interested_categories]
+            query = queries.pop()
+            for item in queries:
+                query |= item
+            self.serializer_class = CourseSerializer 
+            return qs
         return qs
+
 
 
 
@@ -190,7 +201,13 @@ class EnrolledStudentList(generics.ListAPIView):
             student_id = self.kwargs['student_id']
             student = models.Student.objects.get(pk=student_id)
             return models.StudentCourseEnrollment.objects.filter(student=student).distinct()
-        
+        elif 'studentId' in self.kwargs:
+            student_id = self.kwargs['studentId']
+            student = models.Student.objects.get(pk=student_id)
+            qs=models.Course.objects.filter(techs__in=student.interested_categories)
+            self.serializer_class = CourseSerializer
+            print(qs.query)
+            return qs
 
 
 

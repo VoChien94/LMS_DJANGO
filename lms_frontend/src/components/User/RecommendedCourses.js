@@ -1,7 +1,24 @@
-import { Link } from "react-router-dom";
 import SideBar from "./SideBar";
+import { Link, useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
+import axios from 'axios';
+const BASE_URL = 'http://127.0.0.1:8000/api/';
 
-function RecommendCourses() {
+function RecommendedCourses() {
+  const [couseData, setcouseData] = useState([]);
+  const studentId = localStorage.getItem('studentId');
+  // fetch student when page load
+  useEffect(() => {
+    try {
+      axios.get(BASE_URL + 'fetch-recommended-courses/' + studentId + '/')
+        .then((res) => {
+          setcouseData(res.data);
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+
   return (
     <div className="container mt-4">
       <div className="row">
@@ -13,29 +30,25 @@ function RecommendCourses() {
         {/* Cột bên phải: Nội dung My Courses */}
         <div className="col-md-9">
           <div className="card">
-            <h5 className="card-header">Recommend Courses</h5>
+            <h5 className="card-header">My Courses</h5>
             <div className="card-body">
               <table className="table table-bordered">
                 <thead>
                   <tr>
                     <th>Name</th>
-                    <th>Created By</th>
-                    <th>Action</th>
+                    <th>Technologies</th>
+
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>Php Development</td>
-                    <td>
-                      <Link to="/">Suraj Kumar</Link>
-                    </td>
-                    <td>
-                      <button className="btn btn-primary btn-sm active">
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
+                  {couseData.map((row, index) => (
+                    <tr key={index}>
+                      <td><Link to={`/detail/${row.id}`}>{row.title}</Link></td>
+                      <td>{row.techs}</td>
+                    </tr>
+                  ))}
                 </tbody>
+
               </table>
             </div>
           </div>
@@ -45,4 +58,4 @@ function RecommendCourses() {
   );
 }
 
-export default RecommendCourses;
+export default RecommendedCourses;
