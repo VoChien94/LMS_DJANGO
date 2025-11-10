@@ -11,7 +11,7 @@ from rest_framework.authentication import SessionAuthentication, TokenAuthentica
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from . import models
 from .models import Teacher, CourseCategory, Course,Chapter
-from .serializers import StudentCourseEnrollSerializer ,TeacherSerializer, CategorySerializer, CourseSerializer,ChapterSerializer,StudentSerializer,CourseRatingSerializer,TeacherDashboardSerializer,StudentFavoriteCourseSerializer
+from .serializers import StudentCourseEnrollSerializer ,TeacherSerializer, CategorySerializer, CourseSerializer,ChapterSerializer,StudentSerializer,CourseRatingSerializer,TeacherDashboardSerializer,StudentFavoriteCourseSerializer, StudentAssignmentSerializer
 
 
 class TeacherList(generics.ListCreateAPIView):
@@ -51,7 +51,7 @@ def teacher_login(request):
 
 @method_decorator(csrf_exempt, name='dispatch')
 class CategoryList(generics.ListCreateAPIView):
-    queryset = CourseCategory.objects.all()
+    queryset = models.CourseCategory.objects.all()
     serializer_class = CategorySerializer
     permission_classes = [permissions.AllowAny]
 
@@ -122,6 +122,7 @@ class ChapterList(generics.ListCreateAPIView):
     queryset = Chapter.objects.all()
     serializer_class = ChapterSerializer
     permission_classes = [permissions.AllowAny]
+
 @method_decorator(csrf_exempt, name='dispatch')
 class CourseChapterList(generics.ListAPIView):
     serializer_class = ChapterSerializer
@@ -294,3 +295,16 @@ def teacher_change_password(request,teacher_id):
         return JsonResponse({'bool': True})
     else:
         return JsonResponse({'bool': False})
+    
+@method_decorator(csrf_exempt, name='dispatch')
+class AssignmentList(generics.ListCreateAPIView):
+    queryset = models.StudentAssignment.objects.all()
+    serializer_class = StudentAssignmentSerializer
+    permission_classes = [permissions.AllowAny]
+
+    def get_queryset(self):
+        student_id = self.kwargs['student_id']
+        teacher_id = self.kwargs['teacher_id']
+        student = models.Student.objects.get(pk=student_id)
+        teacher = models.Teacher.objects.get(pk=teacher_id)
+        return models.StudentAssignment.objects.filter(student=student,teacher=teacher)
