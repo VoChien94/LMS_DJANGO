@@ -1,25 +1,65 @@
 // Import Link để điều hướng giữa các trang React
 import { Link } from "react-router-dom";
-import SideBar from "./SideBar"
-// Component Dashboard: hiển thị giao diện chính của bảng điều khiển người dùng
-function Dashboard() {
+import { useParams } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import Sidebar from "./SideBar";
+import axios from 'axios';
+const BASE_URL = 'http://127.0.0.1:8000/api/';
+
+function Dashboard(){
+    const [dashboardData, setdashboardData] = useState([]);
+    const studentId = localStorage.getItem('studentId');
+    useEffect(()=>{
+        // Fetch Courses
+        try{
+            axios.get(BASE_URL+'student/dashboard/'+ studentId +'/')
+            .then((res)=>{
+                console.log(res);
+                setdashboardData(res.data);
+            });
+        }catch(error){
+            console.log(error);
+        }
+    },[]);
   return (
-    // Khung chính với Bootstrap container
     <div className="container mt-4">
       <div className="row">
-        {/* Cột bên trái: Menu điều hướng Dashboard */}
         <aside className="col-md-3">
-        <SideBar />
+          <Sidebar />
         </aside>
-
-        {/* Cột bên phải: hiển thị nội dung chính (component MyCourses) */}
         <section className="col-md-9">
-          Dashboard
+          <div className="row">
+            <div className="col-md-4">
+              <div className="card border-primary">
+                <h5 className="card-header bg-primary text-white">Enrolled Courses</h5>
+                <div className="card-body">
+                  <h3><Link to="/my-courses">{dashboardData.enrolled_courses}</Link></h3>
+                </div>
+              </div>
+            </div>
+            <div className="col-md-4">
+              <div className="card border-success">
+                <h5 className="card-header bg-success text-white">Favorite Courses</h5>
+                <div className="card-body">
+                  <h3><Link to="/favorite-courses">{dashboardData.favorite_courses}</Link></h3>
+                </div>
+              </div>
+            </div>
+            <div className="col-md-4">
+              <div className="card border-info">
+                <h5 className="card-header bg-info text-white">Assignments</h5>
+                <div className="card-body">
+                  <h5>
+                   <Link to="/my-assignments">Completed: {dashboardData.complete_assignments}, Pending: {dashboardData.pending_assignments}</Link>
+                  </h5>
+  
+                </div>
+              </div>
+            </div>
+          </div>
         </section>
       </div>
     </div>
   );
 }
-
-// Xuất component để dùng trong nơi khác (App.js, Router, v.v.)
 export default Dashboard;
