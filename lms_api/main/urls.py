@@ -42,5 +42,6 @@ urlpatterns = [
     path('fetch-favorite-courses/<int:student_id>/', views.StudentFavoriteCourseList.as_view()),
     path('student-assignment/<int:teacher_id>/<int:student_id>/', views.AssignmentList.as_view()),
     path('my-assignments/<int:student_id>/', views.MyAssignmentList.as_view()),
+    path('update-assignment/<int:pk>/', views.UpdateAssignment.as_view()),
 
 ]

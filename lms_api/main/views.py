@@ -319,3 +319,10 @@ class MyAssignmentList(generics.ListCreateAPIView):
         student_id = self.kwargs['student_id']
         student = models.Student.objects.get(pk=student_id)
         return models.StudentAssignment.objects.filter(student=student)
+
+@method_decorator(csrf_exempt, name='dispatch')
+class UpdateAssignment(generics.RetrieveUpdateDestroyAPIView):
+    queryset = models.StudentAssignment.objects.all()
+    serializer_class = StudentAssignmentSerializer
+    permission_classes = [permissions.AllowAny]
+
