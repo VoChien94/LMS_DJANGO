@@ -151,6 +151,13 @@ class StudentDashboard(generics.RetrieveAPIView):
     permission_classes = [permissions.AllowAny]
     authentication_classes = [SessionAuthentication, TokenAuthentication]
 
+class StudentDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = models.Student.objects.all()
+    serializer_class = StudentSerializer
+    permission_classes = [permissions.AllowAny]
+    authentication_classes = [SessionAuthentication, TokenAuthentication]
+
+
 @csrf_exempt
 def student_login(request):
     email = request.POST.get('email')

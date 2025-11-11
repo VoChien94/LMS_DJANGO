@@ -43,7 +43,7 @@ const submitForm = (event) => {
 
   const studentLoginStatus=localStorage.getItem('studentLoginStatus');
   if(studentLoginStatus =='true'){
-      window.location.href ='/student-dashboard';
+      window.location.href ='/user-dashboard';
   }
   useEffect(()=>{
      document.title='Student Login'
@@ -65,7 +65,7 @@ const submitForm = (event) => {
                 <div className="mb-3"> {/* mb-3: thêm margin dưới */}
                   {/* label liên kết với input thông qua thuộc tính for */}
                   <label for="exampleInputEmail1" className="form-label">
-                    Username
+                    Email
                   </label>
                   {/* Input type="email" (có thể đổi sang text nếu muốn), class form-control để có style đẹp */}
                   <input type="email" name='email' value={studentLoginData.email} onChange={handleChange} className="form-control" />

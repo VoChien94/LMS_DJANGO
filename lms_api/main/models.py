@@ -103,9 +103,10 @@ class Chapter(models.Model):
 class Student(models.Model):
     full_name = models.CharField(max_length=100)
     email = models.CharField(max_length=100, unique=True)
-    password = models.CharField(max_length=100)
+    password = models.CharField(max_length=100,blank=True,null=True)
     username = models.CharField(max_length=200)
     interested_categories = models.TextField()
+    profile_img=models.ImageField(upload_to='student_profile_imgs/', null=True)
 
 
     def __str__(self):
