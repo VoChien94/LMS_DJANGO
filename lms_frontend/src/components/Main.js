@@ -45,6 +45,7 @@ import TeacherSkillCourses from "./TeacherSkillCourses";
 import AllQuiz from "./Teacher/AllQuiz";
 import AddQuiz from "./Teacher/AddQuiz";
 import EditQuiz from "./Teacher/EditQuiz";
+import QuizQuestions from "./Teacher/QuizQuestions";
 
 function App() {
   return (
@@ -95,6 +96,7 @@ function App() {
         <Route path="/add-quiz" element={<AddQuiz />} />
         <Route path="/quiz" element={<AllQuiz />} />
         <Route path="/edit-quiz/:quiz_id" element={<EditQuiz />} />
+        <Route path="/all-questions/:quiz_id" element={<QuizQuestions />} />
       </Switch>
       <Footer />
     </div>
