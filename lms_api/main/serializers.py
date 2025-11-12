@@ -23,6 +23,7 @@ class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = models.CourseCategory
         fields = ['id','title','description']
+
 class CourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Course
@@ -131,3 +132,28 @@ class NotificationSerializer(serializers.ModelSerializer):
             'notif_created_time',
             'notifiread_status'
         ]
+
+    def __init__(self, *args, **kwargs):
+        super(NotificationSerializer, self).__init__(*args, **kwargs)
+        request = self.context.get('request')
+        self.Meta.depth = 0
+        if request and request.method == 'GET':
+            self.Meta.depth = 2
+
+      
+class QuizSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Quiz
+        fields = [
+                'id',
+                'teacher',
+                'title',
+                'detail', 
+                'add_time',
+            ]
+    def __init__(self, *args, **kwargs):
+        super(QuizSerializer, self).__init__(*args, **kwargs)
+        request = self.context.get('request')
+        self.Meta.depth = 0
+        if request and request.method == 'GET':
+            self.Meta.depth = 2

@@ -11,7 +11,7 @@ from rest_framework.authentication import SessionAuthentication, TokenAuthentica
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from . import models
 from .models import Teacher, CourseCategory, Course,Chapter
-from .serializers import StudentCourseEnrollSerializer ,TeacherSerializer, CategorySerializer, CourseSerializer,ChapterSerializer,StudentSerializer,CourseRatingSerializer,TeacherDashboardSerializer,StudentFavoriteCourseSerializer, StudentAssignmentSerializer,StudentDashboardSerializer,NotificationSerializer
+from .serializers import QuizSerializer,StudentCourseEnrollSerializer ,TeacherSerializer, CategorySerializer, CourseSerializer,ChapterSerializer,StudentSerializer,CourseRatingSerializer,TeacherDashboardSerializer,StudentFavoriteCourseSerializer, StudentAssignmentSerializer,StudentDashboardSerializer,NotificationSerializer
 
 
 class TeacherList(generics.ListCreateAPIView):
@@ -385,4 +385,8 @@ class NotificationList(generics.ListCreateAPIView):
         serializer.save()
 
 
-
+@method_decorator(csrf_exempt, name='dispatch')
+class QuizList(generics.ListCreateAPIView):
+    queryset = models.Quiz.objects.all()
+    serializer_class = QuizSerializer
+    permission_classes = [permissions.AllowAny]
