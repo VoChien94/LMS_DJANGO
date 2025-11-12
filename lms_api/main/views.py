@@ -111,6 +111,7 @@ class TeacherCourseList(generics.ListCreateAPIView):
         teacher_id = self.kwargs['teacher_id']
         teacher=models.Teacher.objects.get(pk=teacher_id)
         return models.Course.objects.filter(teacher_id=teacher_id)
+
 @method_decorator(csrf_exempt, name='dispatch')
 class TeacherCourseDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = models.Course.objects.all()
@@ -138,6 +139,14 @@ class ChapterDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = models.Chapter.objects.all()
     serializer_class = ChapterSerializer
     permission_classes = [permissions.AllowAny]
+
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context['chapter_duration'] = self.chapter_duration
+        print('---------- context ----------')
+        print(context)
+        return context
+
 
 # Student Data
 @method_decorator(csrf_exempt, name='dispatch')
@@ -401,3 +410,16 @@ class TeacherQuizList(generics.ListCreateAPIView):
         teacher_id = self.kwargs['teacher_id']
         teacher=models.Teacher.objects.get(pk=teacher_id)
         return models.Quiz.objects.filter(teacher_id=teacher_id)
+
+@method_decorator(csrf_exempt, name='dispatch')
+class TeacherQuizDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = models.Quiz.objects.all()
+    serializer_class = QuizSerializer
+    permission_classes = [permissions.AllowAny]
+
+@method_decorator(csrf_exempt, name='dispatch')
+class QuizDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = models.Quiz.objects.all()
+    serializer_class = QuizSerializer
+    permission_classes = [permissions.AllowAny]
+
