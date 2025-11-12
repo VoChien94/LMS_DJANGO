@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import axios from 'axios';
 const BASE_URL = 'http://127.0.0.1:8000/api/';
 
-function MyCourses() {
+function TakeQuiz() {
   const [couseData, setcouseData] = useState([]);
   const studentId = localStorage.getItem('studentId');
   // fetch student when page load
@@ -29,32 +29,33 @@ function MyCourses() {
 
         {/* Cột bên phải: Nội dung My Courses */}
         <div className="col-md-9">
+            <h4 className="mb-3 border-bottom pb-1">Quiz Title</h4>
           <div className="card">
-            <h5 className="card-header">My Courses</h5>
+            <h5 className="card-header">Question Title</h5>
             <div className="card-body">
               <table className="table table-bordered">
-                <thead>
-                  <tr>
-                    <th>Name</th>
-                    <th>Created By</th>
-                    <th>Quiz</th>
-                  </tr>
-                </thead>
                 <tbody>
-                  {couseData.map((row, index) =>
                   <tr>
-                    <td> <Link to={`/detail/`+ row.course.id}>{row.course.title}</Link></td>
-                    <td>
-                      <Link to={`/teacher-detail/`+ row.course.teacher.id}>{row.course.teacher.full_name}</Link>
-                    </td>
-                    <td> <Link className='btn btn-sm btn-warning' to={`/course-quiz/`+ row.course.id}>Quiz List</Link></td>
-                    <td>
-                  
-                    </td>
+                    <td><input type='radio'/></td>
+                    <th>Option 1</th>
                   </tr>
-                  )}
+                  <tr>
+                    <td><input type='radio'/></td>
+                    <th>Option 2</th>
+                  </tr>
+                  <tr>
+                    <td><input type='radio'/></td>
+                    <th>Option 3</th>
+                  </tr>
+                  <tr>
+                    <td><input type='radio'/></td>
+                    <th>Option 4</th>
+                  </tr>
+      
                 </tbody>
               </table>
+              <button className="btn btn-dark">Skip</button>
+              <button className="btn btn-primary ms-2">Submit</button>
             </div>
           </div>
         </div>
@@ -63,4 +64,4 @@ function MyCourses() {
   );
 }
 
-export default MyCourses;
+export default TakeQuiz;

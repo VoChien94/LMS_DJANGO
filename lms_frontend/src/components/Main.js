@@ -41,7 +41,7 @@ import PopularTeachers from "./PopularTeachers";
 import CategoryCourses from "./CategoryCourses";
 import TeacherSkillCourses from "./TeacherSkillCourses";
 
-//Quiz
+//Teacher Dashboard: Quiz
 import AllQuiz from "./Teacher/AllQuiz";
 import AddQuiz from "./Teacher/AddQuiz";
 import EditQuiz from "./Teacher/EditQuiz";
@@ -49,7 +49,9 @@ import QuizQuestions from "./Teacher/QuizQuestions";
 import AddQuizQuestion from './Teacher/AddQuizQuestion';
 import AssignQuiz from './Teacher/AssignQuiz';
 
-
+// Student Dashboard: Quiz 
+import CourseQuizList from './User/CourseQuizList';
+import TakeQuiz from './User/TakeQuiz';
 function App() {
   return (
     <div className="App">
@@ -102,6 +104,8 @@ function App() {
         <Route path="/all-questions/:quiz_id" element={<QuizQuestions />} />
         <Route path="/add-quiz-question/:quiz_id" element={<AddQuizQuestion />} />
         <Route path="/assign-quiz/:course_id" element={<AssignQuiz />} />
+        <Route path="/course-quiz/:course_id" element={<CourseQuizList />} />
+        <Route path="/take-quiz/:quiz_id" element={<TakeQuiz />} />
 
       </Switch>
       <Footer />
