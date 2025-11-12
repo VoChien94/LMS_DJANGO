@@ -41,7 +41,7 @@ function AddQuizQuestion() {
         _formData.append('right_ans', questionData.right_ans);
 
         try {
-            axios.post(BASE_URL + '/quiz/questions/' + quiz_id, _formData, {
+            axios.post(BASE_URL + '/quiz-questions/' + quiz_id, _formData, {
                 headers: {
                     'content-type': 'multipart/form-data'
                 }

@@ -11,7 +11,7 @@ from rest_framework.authentication import SessionAuthentication, TokenAuthentica
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from . import models
 from .models import Teacher, CourseCategory, Course,Chapter
-from .serializers import QuestionSerializer,QuizSerializer,StudentCourseEnrollSerializer ,TeacherSerializer, CategorySerializer, CourseSerializer,ChapterSerializer,StudentSerializer,CourseRatingSerializer,TeacherDashboardSerializer,StudentFavoriteCourseSerializer, StudentAssignmentSerializer,StudentDashboardSerializer,NotificationSerializer
+from .serializers import CourseQuizSerializer,QuestionSerializer,QuizSerializer,StudentCourseEnrollSerializer ,TeacherSerializer, CategorySerializer, CourseSerializer,ChapterSerializer,StudentSerializer,CourseRatingSerializer,TeacherDashboardSerializer,StudentFavoriteCourseSerializer, StudentAssignmentSerializer,StudentDashboardSerializer,NotificationSerializer
 
 
 class TeacherList(generics.ListCreateAPIView):
@@ -431,3 +431,19 @@ class QuizQuestionList(generics.ListAPIView):
         quiz_id = self.kwargs['quiz_id']
         quiz = models.Quiz.objects.get(pk=quiz_id)
         return models.QuizQuestions.objects.filter(quiz=quiz)
+    
+@method_decorator(csrf_exempt, name='dispatch')
+class CourseQuizList(generics.ListCreateAPIView):
+    queryset = models.CourseQuiz.objects.all()
+    serializer_class = CourseQuizSerializer
+    permission_classes = [permissions.AllowAny]
+    parser_classes = [MultiPartParser, FormParser, JSONParser]
+
+def fetch_quiz_assign_status(request, quiz_id, course_id):
+    quiz = models.Quiz.objects.filter(id=quiz_id).first()
+    course = models.Course.objects.filter(id=course_id).first()
+    assignStatus = models.CourseQuiz.objects.filter(course=course, quiz=quiz).count()
+    if assignStatus:
+        return JsonResponse({'bool': True})
+    else:
+        return JsonResponse({'bool': False})

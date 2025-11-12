@@ -82,6 +82,12 @@ function MyCourses() {
                         >
                           Add Chapter
                         </Link>
+                        <Link
+                          className="btn btn-warning btn-sm ms-2"
+                          to={`/assign-quiz/` + course.id}
+                        >
+                          Assign Quiz
+                        </Link>
                         <button className="btn btn-danger btn-sm ms-2">Delete</button>
                       </td>
                     </tr>
