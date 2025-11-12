@@ -51,5 +51,5 @@ urlpatterns = [
 
     #Quiz Start
     path('quiz/', views.QuizList.as_view()),
-
+    path('teacher-quiz/<int:teacher_id>/', views.TeacherQuizList.as_view()),
 ]

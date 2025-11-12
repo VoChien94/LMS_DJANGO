@@ -42,6 +42,7 @@ import CategoryCourses from "./CategoryCourses";
 import TeacherSkillCourses from "./TeacherSkillCourses";
 
 //Quiz
+import AllQuiz from "./Teacher/AllQuiz";
 import AddQuiz from "./Teacher/AddQuiz";
 
 function App() {
@@ -66,7 +67,6 @@ function App() {
         <Route path="/teacher-register" element={<TeacherRegister />} />
         <Route path="/teacher-dashboard" element={<TeacherDashboard />} />
         <Route path="/add-course" element={<AddCourse />} />
-        <Route path="/add-quiz" element={<AddQuiz />} />
         <Route path="/edit-course/:course_id" element={<EditCourse />} />
         <Route path="/add-chapter/:course_id" element={<AddChapter />} />
         <Route path="/add-assignment/:student_id/:teacher_id" element={<AddAssignment />} />
@@ -91,7 +91,8 @@ function App() {
         <Route path="/popular-teachers" element={<PopularTeachers />} />
         <Route path="/category/:category_slug" element={<CategoryCourses />} />
         <Route path="/teacher-skill-courses/:skill_name/:teacher_id" element={<TeacherSkillCourses />} />
-
+        <Route path="/add-quiz" element={<AddQuiz />} />
+        <Route path="/quiz" element={<AllQuiz />} />
       </Switch>
       <Footer />
     </div>

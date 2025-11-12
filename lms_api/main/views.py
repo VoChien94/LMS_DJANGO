@@ -109,6 +109,7 @@ class TeacherCourseList(generics.ListCreateAPIView):
 
     def get_queryset(self):
         teacher_id = self.kwargs['teacher_id']
+        teacher=models.Teacher.objects.get(pk=teacher_id)
         return models.Course.objects.filter(teacher_id=teacher_id)
 @method_decorator(csrf_exempt, name='dispatch')
 class TeacherCourseDetail(generics.RetrieveUpdateDestroyAPIView):
@@ -390,3 +391,13 @@ class QuizList(generics.ListCreateAPIView):
     queryset = models.Quiz.objects.all()
     serializer_class = QuizSerializer
     permission_classes = [permissions.AllowAny]
+
+@method_decorator(csrf_exempt, name='dispatch')
+class TeacherQuizList(generics.ListCreateAPIView):
+    serializer_class = QuizSerializer
+    permission_classes = [permissions.AllowAny]
+
+    def get_queryset(self):
+        teacher_id = self.kwargs['teacher_id']
+        teacher=models.Teacher.objects.get(pk=teacher_id)
+        return models.Quiz.objects.filter(teacher_id=teacher_id)
