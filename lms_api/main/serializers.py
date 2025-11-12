@@ -117,3 +117,17 @@ class StudentDashboardSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Student
         fields = ['enrolled_courses', 'favorite_courses', 'complete_assignments','pending_assignments']
+
+
+class NotificationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Notification
+        fields = [
+            'id',
+            'teacher',
+            'student',
+            'notif_subject',
+            'notif_for',
+            'notif_created_time',
+            'notifiread_status'
+        ]

@@ -33,7 +33,7 @@ function AddAssignment() {
         _formData.append('student', student_id);
 
         try {
-            axios.post(BASE_URL+'student-assignment/'+ teacher_id+ '/'+ student_id +'/', _formData, {
+            axios.post(BASE_URL + 'student-assignment/' + teacher_id + '/' + student_id + '/', _formData, {
                 headers: {
                     'content-type': 'multipart/form-data'
                 }
@@ -44,11 +44,32 @@ function AddAssignment() {
                             title: 'Assignment has been added',
                             icon: 'success',
                             toast: true,
-                            timer: 3000,
+                            timer: 10000,
                             position: 'top-right',
                             timerProgressBar: true,
                             showConfirmButton: false
                         });
+                        // Save Notification Data
+                        const _notifData = new FormData();
+                        _notifData.append('teacher', teacher_id);
+                        _notifData.append('notif_subject', 'assignment');
+                        _notifData.append('notif_for', 'student');
+                        _notifData.append('student', student_id);
+
+                        axios.post(BASE_URL + 'save-notification/', _notifData, {
+                            headers: {
+                                'content-type': 'multipart/form-data'
+                            }
+                        })
+                            .then((res) => {
+                                console.log('Notification Added');
+                            })
+
+                        // End Notification
+                        window.location.reload();
+
+                        // End SweetAlert
+
                         window.location.reload();
                     }
                 });

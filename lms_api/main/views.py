@@ -11,7 +11,7 @@ from rest_framework.authentication import SessionAuthentication, TokenAuthentica
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from . import models
 from .models import Teacher, CourseCategory, Course,Chapter
-from .serializers import StudentCourseEnrollSerializer ,TeacherSerializer, CategorySerializer, CourseSerializer,ChapterSerializer,StudentSerializer,CourseRatingSerializer,TeacherDashboardSerializer,StudentFavoriteCourseSerializer, StudentAssignmentSerializer,StudentDashboardSerializer
+from .serializers import StudentCourseEnrollSerializer ,TeacherSerializer, CategorySerializer, CourseSerializer,ChapterSerializer,StudentSerializer,CourseRatingSerializer,TeacherDashboardSerializer,StudentFavoriteCourseSerializer, StudentAssignmentSerializer,StudentDashboardSerializer,NotificationSerializer
 
 
 class TeacherList(generics.ListCreateAPIView):
@@ -324,14 +324,27 @@ class AssignmentList(generics.ListCreateAPIView):
     
 @method_decorator(csrf_exempt, name='dispatch')
 class MyAssignmentList(generics.ListCreateAPIView):
-    queryset = models.StudentAssignment.objects.all()
     serializer_class = StudentAssignmentSerializer
     permission_classes = [permissions.AllowAny]
 
     def get_queryset(self):
         student_id = self.kwargs['student_id']
         student = models.Student.objects.get(pk=student_id)
+
+     
+        models.Notification.objects.filter(
+            student=student,
+            notif_for='student',
+            notif_subject='assignment'
+        ).update(notifiread_status=True)
+
         return models.StudentAssignment.objects.filter(student=student)
+
+    def get_serializer_context(self):
+       
+        context = super().get_serializer_context()
+        context.update({'request': self.request})
+        return context
 
 @method_decorator(csrf_exempt, name='dispatch')
 class UpdateAssignment(generics.RetrieveUpdateDestroyAPIView):
@@ -351,4 +364,25 @@ def student_change_password(request,student_id):
         return JsonResponse({'bool': True})
     else:
         return JsonResponse({'bool': False})
+    
+class NotificationList(generics.ListCreateAPIView):
+    queryset = models.Notification.objects.all()
+    serializer_class = NotificationSerializer
+    permission_classes = [permissions.AllowAny]
+
+    def get_queryset(self):
+        student_id = self.kwargs.get('student_id')
+        if student_id:
+            student = models.Student.objects.get(pk=student_id)
+
+            return models.Notification.objects.filter(
+                student=student,
+                notifiread_status=False
+            )
+        return models.Notification.objects.none()
+
+    def perform_create(self, serializer):
+        serializer.save()
+
+
 

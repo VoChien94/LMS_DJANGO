@@ -14,6 +14,7 @@ function StudentAssignments() {
     try {
       axios.get(BASE_URL + 'my-assignments/' + studentId + '/')
         .then((res) => {
+           console.log('Assignments data:', res.data);
           setassignmentData(res.data);
         });
     } catch (error) {
@@ -68,24 +69,24 @@ function StudentAssignments() {
                   </tr>
                 </thead>
                 <tbody>
-                  {assignmentData.map((row, index) =>
-                    <tr>
-                      <td>{row.title}</td>
-                      <td>{row.detail}</td>
-                      <td>
-                        <Link to={`/teacher-detail/` + row.teacher.id}>{row.teacher.full_name}</Link>
-                      </td>
-                      <td>
-                        {row.student_status == false &&
-                          <button onClick={() => markAsDone(row.id, row.title, row.detail, row.student.id, row.teacher.id)} className="btn btn-success btn-sm">Mark as Done</button>
-                        }
-                        {row.student_status == true &&
-                          <span className='badge bg-primary'>Completed</span>
-                        }
+                    {assignmentData.map((row, index) =>
+                      <tr>
+                        <td>{row.title}</td>
+                        <td>{row.detail}</td>
+                        <td>
+                          <Link to={`/teacher-detail/` + row.teacher.id}>{row.teacher.full_name}</Link>
+                        </td>
+                        <td>
+                          {row.student_status == false &&
+                            <button onClick={() => markAsDone(row.id, row.title, row.detail, row.student.id, row.teacher.id)} className="btn btn-success btn-sm">Mark as Done</button>
+                          }
+                          {row.student_status == true &&
+                            <span className='badge bg-primary'>Completed</span>
+                          }
 
-                      </td>
-                    </tr>
-                  )}
+                        </td>
+                      </tr>
+                    )}
                 </tbody>
               </table>
             </div>
