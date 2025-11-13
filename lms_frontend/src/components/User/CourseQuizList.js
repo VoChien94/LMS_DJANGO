@@ -5,14 +5,15 @@ import axios from 'axios';
 const BASE_URL = 'http://127.0.0.1:8000/api/';
 
 function CourseQuizList() {
-    const [couseData, setcouseData] = useState([]);
+    const [quizData, setquizData] = useState([]);
     const studentId = localStorage.getItem('studentId');
+    const { course_id } = useParams();
     // fetch student when page load
     useEffect(() => {
         try {
-            axios.get(BASE_URL + 'fetch-enrolled-courses/' + studentId + '/')
+            axios.get(BASE_URL + 'fetch-assigned-quiz/' + course_id + '/')
                 .then((res) => {
-                    setcouseData(res.data);
+                    setquizData(res.data);
                 });
         } catch (error) {
             console.log(error);
@@ -36,20 +37,20 @@ function CourseQuizList() {
                                 <thead>
                                     <tr>
                                         <th>Quiz</th>
-
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>Python Quiz</td>
-                                        <td className="text-success">Attempted</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Django Quiz</td>
-                                        <td> <Link className='btn btn-sm btn-warning' to={`/take-quiz/1`}>Take Quiz</Link></td>
-                                    </tr>
-
+                                    {quizData.map((row, index) =>
+                                        <tr>
+                                            <td>
+                                                {row.quiz.title}
+                                            </td>
+                                            <td>
+                                                <Link className='btn btn-warning btn-sm' to={'/take-quiz/' + row.quiz.id}>Take Quiz</Link>
+                                            </td>
+                                        </tr>
+                                    )}
                                 </tbody>
                             </table>
                         </div>

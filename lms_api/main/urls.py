@@ -38,7 +38,7 @@ urlpatterns = [
     path('fetch-recommended-courses/<int:studentId>/', views.CourseList.as_view()),
     path('course-rating/', views.CourseRatingList.as_view()),
     path('course-rating/<int:course_id>/', views.CourseRatingList.as_view()),
-    path('fetch-rating-status/<int:student_id>/<int:course_id>', views.fetch_rating_status),
+    path('fetch-rating-status/<int:student_id>/<int:course_id>/', views.fetch_rating_status),
     path('student-add-favorite-course/', views.StudentFavoriteCourseList.as_view()),
     path('student-remove-favorite-course/<int:course_id>/<int:student_id>/', views.remove_favorite_course),
     path('fetch-favorite-status/<int:student_id>/<int:course_id>/', views.fetch_favorite_status),
@@ -57,4 +57,7 @@ urlpatterns = [
     path('quiz-questions/<int:quiz_id>/', views.QuizQuestionList.as_view()),
     path('quiz-assign-course/', views.CourseQuizList.as_view()),
     path('fetch-quiz-assign-status/<int:quiz_id>/<int:course_id>/', views.fetch_quiz_assign_status),
+    path('quiz-assign-course/', views.CourseQuizList.as_view()),
+    path('fetch-assigned-quiz/<int:course_id>/', views.CourseQuizList.as_view()),
+
 ]
