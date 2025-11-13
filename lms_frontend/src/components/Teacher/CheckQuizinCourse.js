@@ -44,7 +44,7 @@ function CheckQuizinCourse(props) {
 
   
   return (
-    <>
+    <td>
       {quizData.bool === false && (
         <button
           onClick={() => assignQuiz(props.quiz)}
@@ -57,7 +57,7 @@ function CheckQuizinCourse(props) {
       {quizData.bool === true && (
         <span className="text-success">Assigned</span>
       )}
-    </>
+    </td>
   );
 }
 

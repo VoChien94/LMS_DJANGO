@@ -11,7 +11,7 @@ from rest_framework.authentication import SessionAuthentication, TokenAuthentica
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from . import models
 from .models import Teacher, CourseCategory, Course,Chapter
-from .serializers import CourseQuizSerializer,QuestionSerializer,QuizSerializer,StudentCourseEnrollSerializer ,TeacherSerializer, CategorySerializer, CourseSerializer,ChapterSerializer,StudentSerializer,CourseRatingSerializer,TeacherDashboardSerializer,StudentFavoriteCourseSerializer, StudentAssignmentSerializer,StudentDashboardSerializer,NotificationSerializer
+from .serializers import AttemptQuizSerializer, CourseQuizSerializer,QuestionSerializer,QuizSerializer,StudentCourseEnrollSerializer ,TeacherSerializer, CategorySerializer, CourseSerializer,ChapterSerializer,StudentSerializer,CourseRatingSerializer,TeacherDashboardSerializer,StudentFavoriteCourseSerializer, StudentAssignmentSerializer,StudentDashboardSerializer,NotificationSerializer
 
 
 class TeacherList(generics.ListCreateAPIView):
@@ -424,13 +424,31 @@ class QuizDetailView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [permissions.AllowAny]
 
 @method_decorator(csrf_exempt, name='dispatch')
-class QuizQuestionList(generics.ListAPIView):
+class QuizQuestionList(generics.ListCreateAPIView):
     serializer_class = QuestionSerializer
     permission_classes = [permissions.AllowAny]
+    def create(self, request, *args, **kwargs):
+        quiz_id = self.kwargs.get('quiz_id')
+        quiz = models.Quiz.objects.get(pk=quiz_id)
+
+        data = request.data.copy()
+        data['quiz'] = quiz.id
+
+        serializer = self.get_serializer(data=data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(serializer.data, status=201)
     def get_queryset(self):
         quiz_id = self.kwargs['quiz_id']
         quiz = models.Quiz.objects.get(pk=quiz_id)
-        return models.QuizQuestions.objects.filter(quiz=quiz)
+        if 'limit' in self.kwargs:
+            return models.QuizQuestions.objects.filter(quiz=quiz).order_by('id')[:1]
+        elif 'question_id' in self.kwargs:
+            current_question= self.kwargs['question_id']
+            return models.QuizQuestions.objects.filter(quiz=quiz,id__gt=current_question).order_by('id')[:1]
+        else:
+            return models.QuizQuestions.objects.filter(quiz=quiz)
     
 @method_decorator(csrf_exempt, name='dispatch')
 class CourseQuizList(generics.ListCreateAPIView):
@@ -454,3 +472,22 @@ def fetch_quiz_assign_status(request, quiz_id, course_id):
         return JsonResponse({'bool': True})
     else:
         return JsonResponse({'bool': False})
+
+    
+@method_decorator(csrf_exempt, name='dispatch')
+class AttemptQuizList(generics.ListCreateAPIView):
+    queryset = models.AttempQuiz.objects.all()
+    serializer_class = AttemptQuizSerializer
+    permission_classes = [permissions.AllowAny]
+    parser_classes = [MultiPartParser, FormParser, JSONParser]
+
+def fetch_quiz_attempt_status(request, quiz_id, student_id):
+    quiz = models.Quiz.objects.filter(id=quiz_id).first()
+    student = models.Student.objects.filter(id=student_id).first()
+    attemptStatus = models.AttempQuiz.objects.filter(student=student, question__quiz=quiz).count()
+    if attemptStatus > 0 :
+        return JsonResponse({'bool': True})
+    else:
+        return JsonResponse({'bool': False})
+
+ 

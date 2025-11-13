@@ -106,6 +106,8 @@ function App() {
         <Route path="/assign-quiz/:course_id" element={<AssignQuiz />} />
         <Route path="/course-quiz/:course_id" element={<CourseQuizList />} />
         <Route path="/take-quiz/:quiz_id" element={<TakeQuiz />} />
+        <Route path="/course-quiz/:course_id/take-quiz/:quiz_id" element={<TakeQuiz />} />
+
 
       </Switch>
       <Footer />

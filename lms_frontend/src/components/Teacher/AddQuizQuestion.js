@@ -9,7 +9,7 @@ function AddQuizQuestion() {
     const { quiz_id } = useParams();
     const [questionData, setquestionData] = useState({
         quiz: '',
-        question: '',
+        questions: '',
         ans1: '',
         ans2: '',
         ans3: '',
@@ -33,7 +33,7 @@ function AddQuizQuestion() {
         const _formData = new FormData();
 
         _formData.append('quiz', quiz_id);
-        _formData.append('question', questionData.question);
+        _formData.append('questions', questionData.questions);
         _formData.append('ans1', questionData.ans1);
         _formData.append('ans2', questionData.ans2);
         _formData.append('ans3', questionData.ans3);
@@ -41,7 +41,7 @@ function AddQuizQuestion() {
         _formData.append('right_ans', questionData.right_ans);
 
         try {
-            axios.post(BASE_URL + '/quiz-questions/' + quiz_id, _formData, {
+            axios.post(`${BASE_URL}quiz-questions/${quiz_id}/`, _formData, {
                 headers: {
                     'content-type': 'multipart/form-data'
                 }
@@ -52,7 +52,7 @@ function AddQuizQuestion() {
                             title: 'Data has been added',
                             icon: 'success',
                             toast: true,
-                            timer: 3000,
+                            timer: 5000,
                             position: 'top-right',
                             timerProgressBar: true,
                             showConfirmButton: false
@@ -73,13 +73,13 @@ function AddQuizQuestion() {
 
                 <div className="col-md-9">
                     <div className="card">
-                        <h5 className="card-header">Add Quiz</h5>
+                        <h5 className="card-header">Add Question</h5>
                         <div className="card-body">
                             <form>
                                 <div className="mb-3">
                                     <label htmlFor="title" className="form-label">Title</label>
                                     <input type="text" onChange={handleChange}
-                                        id="title" name="title" className="form-control" />
+                                        id="questions" name="questions" className="form-control" />
                                 </div>
                                 <div className="mb-3">
                                     <label htmlFor="title" className="form-label">Ans 1</label>

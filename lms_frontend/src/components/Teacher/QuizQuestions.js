@@ -10,7 +10,6 @@ function QuizQuestions() {
     const [totalResult, settotalResult] = useState(0);
     const {quiz_id } = useParams();
 
-
     useEffect(() => {
         try {
             axios.get(BASE_URL + 'quiz-questions/' + quiz_id + '/')

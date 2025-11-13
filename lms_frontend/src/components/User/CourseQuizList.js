@@ -2,6 +2,7 @@ import SideBar from "./SideBar";
 import { Link, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from 'axios';
+import CheckQuizStatusForStudent from './CheckQuizStatusForStudent';
 const BASE_URL = 'http://127.0.0.1:8000/api/';
 
 function CourseQuizList() {
@@ -46,9 +47,7 @@ function CourseQuizList() {
                                             <td>
                                                 {row.quiz.title}
                                             </td>
-                                            <td>
-                                                <Link className='btn btn-warning btn-sm' to={'/take-quiz/' + row.quiz.id}>Take Quiz</Link>
-                                            </td>
+                                           <CheckQuizStatusForStudent quiz={row.quiz.id} student={studentId} />
                                         </tr>
                                     )}
                                 </tbody>
