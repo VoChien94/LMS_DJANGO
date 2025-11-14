@@ -76,6 +76,12 @@ function MyCourses() {
                         >
                           Edit
                         </Link>
+                         <Link
+                          className="btn btn-primary btn-sm ms-2"
+                          to={`/study-materials/` + course.id}
+                        >
+                          Study Material
+                        </Link>
                         <Link
                           className="btn btn-success btn-sm ms-2"
                           to={`/add-chapter/` + course.id}

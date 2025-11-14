@@ -49,10 +49,14 @@ import QuizQuestions from "./Teacher/QuizQuestions";
 import AddQuizQuestion from './Teacher/AddQuizQuestion';
 import AssignQuiz from './Teacher/AssignQuiz';
 
+// Course Study Materials
+import StudyMaterials from "./Teacher/StudyMaterials";
+
 // Student Dashboard: Quiz 
 import CourseQuizList from './User/CourseQuizList';
 import TakeQuiz from './User/TakeQuiz';
 import Search from './Search';
+import AddStudyMaterial from './Teacher/AddStudyMaterial';
 function App() {
   return (
     <div className="App">
@@ -95,6 +99,10 @@ function App() {
         <Route path="/teacher-users" element={<UserList />} />
         <Route path="/all-courses" element={<AllCourses />} />
         <Route path="/all-chapters/:course_id" element={<AllChapters />} />
+
+        <Route path="/study-materials/:course_id" element={<StudyMaterials />} />
+        <Route path="/add-study/:course_id" element={<AddStudyMaterial />} />
+
         <Route path="/edit-chapter/:chapter_id" element={<EditChapter />} />
         <Route path="/popular-courses" element={<PopularCourses />} />
         <Route path="/popular-teachers" element={<PopularTeachers />} />

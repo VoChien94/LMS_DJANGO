@@ -251,3 +251,14 @@ class AttempQuiz(models.Model):
 
     class Meta:
         verbose_name_plural = "14. Attempted Questions"
+
+# Study Material Model
+class StudyMaterial(models.Model):
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    title = models.CharField(max_length=150)
+    description = models.TextField()
+    upload=models.FileField(upload_to='study_materials/', null=True)
+    remarks=models.TextField(null=True)
+
+    class Meta:
+        verbose_name_plural = "15. Course Study Materials"
