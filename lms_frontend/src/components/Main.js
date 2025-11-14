@@ -49,6 +49,7 @@ import EditQuiz from "./Teacher/EditQuiz";
 import QuizQuestions from "./Teacher/QuizQuestions";
 import AddQuizQuestion from './Teacher/AddQuizQuestion';
 import AssignQuiz from './Teacher/AssignQuiz';
+import AttemptedStudents from './Teacher/AttemptedStudents';
 
 // Course Study Materials
 import StudyMaterials from "./Teacher/StudyMaterials";
@@ -116,6 +117,7 @@ function App() {
         <Route path="/all-questions/:quiz_id" element={<QuizQuestions />} />
         <Route path="/add-quiz-question/:quiz_id" element={<AddQuizQuestion />} />
         <Route path="/assign-quiz/:course_id" element={<AssignQuiz />} />
+        <Route path="/attempted-students/:quiz_id" element={<AttemptedStudents />} />
         <Route path="/course-quiz/:course_id" element={<CourseQuizList />} />
         <Route path="/take-quiz/:quiz_id" element={<TakeQuiz />} />
         <Route path="/course-quiz/:course_id/take-quiz/:quiz_id" element={<TakeQuiz />} />

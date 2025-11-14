@@ -481,11 +481,58 @@ def fetch_quiz_assign_status(request, quiz_id, course_id):
 
     
 @method_decorator(csrf_exempt, name='dispatch')
-class AttemptQuizList(generics.ListCreateAPIView):
-    queryset = models.AttempQuiz.objects.all()
+class AttemptQuizList(generics.ListAPIView):
     serializer_class = AttemptQuizSerializer
     permission_classes = [permissions.AllowAny]
-    parser_classes = [MultiPartParser, FormParser, JSONParser]
+
+    def get_queryset(self):
+        if 'quiz_id' in self.kwargs:
+            quiz_id = self.kwargs['quiz_id']
+
+            query = f"""
+                SELECT 
+                    MIN(id) AS id,
+                    student_id,
+                    quiz_id,
+                    MAX(question_id) AS question_id,
+                    MAX(right_ans) AS right_ans,
+                    MAX(add_time) AS add_time
+                FROM main_attempquiz
+                WHERE quiz_id = {quiz_id}
+                GROUP BY student_id;
+            """
+
+            return models.AttempQuiz.objects.raw(query)
+
+        return super().get_queryset()
+
+
+
+@method_decorator(csrf_exempt, name='dispatch')
+class QuizResultView(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def get(self, request, quiz_id, student_id, *args, **kwargs):
+        try:
+            quiz = models.Quiz.objects.get(pk=quiz_id)
+            student = models.Student.objects.get(pk=student_id)
+        except (models.Quiz.DoesNotExist, models.Student.DoesNotExist):
+            return Response(
+                {"detail": "Quiz or student not found"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        total_questions = models.QuizQuestions.objects.filter(quiz=quiz).count()
+        total_attempted_questions = models.AttempQuiz.objects.filter(
+            quiz=quiz,
+            student=student
+        ).count()
+
+        return Response({
+            "total_questions": total_questions,
+            "total_attempted_questions": total_attempted_questions
+        })
+
 
 def fetch_quiz_attempt_status(request, quiz_id, student_id):
     quiz = models.Quiz.objects.filter(id=quiz_id).first()
