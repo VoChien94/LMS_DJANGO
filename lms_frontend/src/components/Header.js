@@ -1,8 +1,24 @@
 import { Link } from "react-router-dom";
-
+import { useState, useEffect } from 'react';
 function Header() {
-  const teacherLoginStatus = localStorage.getItem('teacherLoginStatus')
-  const studentLoginStatus = localStorage.getItem('studentLoginStatus')
+  const [searchString, setsearchString] = useState({
+    'search' :''
+  });
+  const teacherLoginStatus = localStorage.getItem('teacherLoginStatus');
+  const studentLoginStatus = localStorage.getItem('studentLoginStatus');
+  const handleChange = (event) => {
+        setsearchString({
+            ...searchString,
+            [event.target.name]: event.target.value
+        });
+    };
+  
+  const searchCourse=()=>{
+      if(searchString.search !==''){
+      window.location.href='/search/'+searchString.search
+      }
+  }
+
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <div className="container">
@@ -20,6 +36,10 @@ function Header() {
         >
           <span className="navbar-toggler-icon"></span>
         </button>
+        <form class="d-flex" role="search">
+          <input name="search" onChange={handleChange} class="form-control me-2" type="search" placeholder="Search by course title" aria-label="Search" />
+          <button onClick={searchCourse} class="btn btn-warning" type="button">Search</button>
+        </form>
 
         <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
           <div className="navbar-nav ms-auto">
@@ -31,16 +51,17 @@ function Header() {
             </Link>
 
             <li className="nav-item dropdown">
-              <a
+              <Link
                 className="nav-link dropdown-toggle"
-                href="#"
+                to="#"
                 id="navbarDropdown"
                 role="button"
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
                 Teacher
-              </a>
+              </Link>
+
               <ul className="dropdown-menu" aria-labelledby="navbarDropdown">{teacherLoginStatus != 'true' &&
                 <>
                   <li>
@@ -54,29 +75,33 @@ function Header() {
                     </Link>
                   </li></>
               }
-                <li>
-                  <Link className="dropdown-item" to="/teacher-dashboard">
-                    Dashboard
-                  </Link>
-                </li>
-                <li>
-                  <Link className="dropdown-item" to="/teacher-logout">
-                    Logout
-                  </Link>
-                </li>
+                {teacherLoginStatus === 'true' && <>
+                  <li>
+                    <Link className="dropdown-item" to="/teacher-dashboard">
+                      Dashboard
+                    </Link>
+                  </li>
+                  <li>
+                    <Link className="dropdown-item" to="/teacher-logout">
+                      Logout
+                    </Link>
+                  </li>
+                </>
+                }
               </ul>
+
             </li>
             <li className="nav-item dropdown">
-              <a
+              <Link
                 className="nav-link dropdown-toggle"
-                href="#"
+                to="#"
                 id="navbarDropdown"
                 role="button"
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
                 User
-              </a>
+              </Link>
               <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
                 {studentLoginStatus != 'true' && <>
                   <li>
@@ -91,16 +116,16 @@ function Header() {
                   </li> </>
                 }
                 {studentLoginStatus == 'true' && <>
-                <li>
-                  <Link className="dropdown-item" to="/user-dashboard">
-                    Dashboard
-                  </Link>
-                </li>
-                <li>
-                  <Link className="dropdown-item" to="/user-logout">
-                    Logout
-                  </Link>
-                </li> </>
+                  <li>
+                    <Link className="dropdown-item" to="/user-dashboard">
+                      Dashboard
+                    </Link>
+                  </li>
+                  <li>
+                    <Link className="dropdown-item" to="/user-logout">
+                      Logout
+                    </Link>
+                  </li> </>
                 }
               </ul>
             </li>

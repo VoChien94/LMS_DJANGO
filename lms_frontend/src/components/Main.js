@@ -52,6 +52,7 @@ import AssignQuiz from './Teacher/AssignQuiz';
 // Student Dashboard: Quiz 
 import CourseQuizList from './User/CourseQuizList';
 import TakeQuiz from './User/TakeQuiz';
+import Search from './Search';
 function App() {
   return (
     <div className="App">
@@ -60,6 +61,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/detail/:course_id" element={<CourseDetail />} />
+        <Route path="/search/:searchstring" element={<Search />} />
         <Route path="/user-login" element={<Login />} />
         <Route path="/user-logout" element={<Logout />} />
         <Route path="/user-register" element={<Register />} />
