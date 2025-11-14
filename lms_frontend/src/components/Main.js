@@ -15,6 +15,7 @@ import RecommendedCourses from "./User/RecommendedCourses";
 import StudentAssignments from "./User/StudentAssignments";
 import ProfileSetting from "./User/ProfileSetting";
 import ChangePassword from "./User/ChangePassword";
+import UserStudyMaterials from "./User/UserStudyMaterials";
 // Teachers
 import TeacherRegister from "./Teacher/TeacherRegister";
 import TeacherLogin from "./Teacher/TeacherLogin";
@@ -101,6 +102,7 @@ function App() {
         <Route path="/all-chapters/:course_id" element={<AllChapters />} />
 
         <Route path="/study-materials/:course_id" element={<StudyMaterials />} />
+        <Route path="/user/study-materials/:course_id" element={<UserStudyMaterials />} />
         <Route path="/add-study/:course_id" element={<AddStudyMaterial />} />
 
         <Route path="/edit-chapter/:chapter_id" element={<EditChapter />} />

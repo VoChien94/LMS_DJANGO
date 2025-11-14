@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import TeacherSidebar from "./TeacherSidebar";
+import SideBar from "./SideBar";
 import { useState, useEffect } from "react";
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
@@ -13,7 +13,7 @@ function StudyMaterials() {
 
     useEffect(() => {
         try {
-            axios.get(BASE_URL + 'study-materials/' + course_id + '/')
+            axios.get(BASE_URL + 'user/study-materials/' + course_id + '/')
                 .then((res) => {
                     settotalResult(res.data.length);
                     setstudyData(res.data);
@@ -22,67 +22,34 @@ function StudyMaterials() {
             console.log(error);
         }
     }, []);
-
+    
     const downloadFile = (file_url)=>{
         window.location.href=file_url;
     }
 
-    // Delete Data
-    const Swal = require('sweetalert2');
-    const handleDeleteClick = (study_id) => {
-        Swal.fire({
-            title: 'Confirm',
-            text: 'Are you sure you want to delete this data?',
-            icon: 'info',
-            confirmButtonText: 'Continue',
-            showCancelButton: true
-        }).then((result) => {
-            if (result.isConfirmed) {
-                try {
-                    axios.delete(BASE_URL + 'study-material/' + study_id + '/')
-
-                        .then((res) => {
-                            Swal.fire('success', 'Data has been deleted.');
-                            try {
-                                axios.get(BASE_URL + 'study-materials/' + course_id + '/')
-                                    .then((res) => {
-                                        settotalResult(res.data.length);
-                                        setstudyData(res.data);
-                                    });
-                            } catch (error) {
-                                console.log(error);
-                            }
-                        });
-                        
-                } catch (error) {
-                    Swal.fire('error', 'Data has not been deleted!');
-                }
-            } else {
-                Swal.fire('error', 'Data has not been deleted!');
-            }
-        });
-    };
+   
 
     return (
         <div className="container mt-4">
             <div className="row">
                 {/* Cột bên trái: Menu điều hướng Dashboard */}
                 <aside className="col-md-3">
-                    <TeacherSidebar />
+                    <SideBar />
                 </aside>
 
                 {/* Cột bên phải: Nội dung My Courses */}
                 <div className="col-md-9">
                     <div className="card">
-                        <h5 className="card-header">All Study Materials({totalResult}) <Link className="btn btn-success btn-sm float-end" to={`/add-study/`+course_id}>Add Study Material</Link></h5>
+                        <h5 className="card-header">All Study Materials({totalResult})</h5>
                         <div className="card-body">
                             <table className="table table-bordered">
                                 <thead>
                                     <tr>
                                         <th>Title</th>
+                                         <th>Detail</th>
                                         <th>Upload</th>
                                         <th>Remarks</th>
-                                        <th>Action</th>
+                       
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -90,19 +57,16 @@ function StudyMaterials() {
 
                                         <tr>
                                             <td>{row.title}</td>
+                                            <td>{row.description}</td>
+
                                             <td>
-                                                <button className='btn btn-outline-primary' onClick={() => downloadFile(row.upload)}>Download File</button>
+                                              <button className='btn btn-outline-primary' onClick={() => downloadFile(row.upload)}>Download File</button>
+
                                             </td>
                                             <td>
                                                 {row.remarks}
                                             </td>
-                                            <td>
-                                                
-                                                <button onClick={() => handleDeleteClick(row.id)} className='btn btn-sm btn-danger ms-1'>
-                                                    <i className="bi bi-trash"></i>
-                                                </button>
-
-                                            </td>
+                                           
                                         </tr>
                                     )}
                                 </tbody>

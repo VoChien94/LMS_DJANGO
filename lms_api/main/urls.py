@@ -70,4 +70,6 @@ urlpatterns = [
     path('study-materials/<int:course_id>/', views.StudyMaterialList.as_view()),
     path('study-material/<int:pk>/', views.StudyMaterialDetailView.as_view()),
 
+    path('user/study-materials/<int:course_id>/', views.StudyMaterialList.as_view()),
+
 ]
