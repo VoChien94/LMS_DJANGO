@@ -520,7 +520,7 @@ def fetch_quiz_assign_status(request, quiz_id, course_id):
 
     
 @method_decorator(csrf_exempt, name='dispatch')
-class AttemptQuizList(generics.ListAPIView):
+class AttemptQuizList(generics.ListCreateAPIView):
     serializer_class = AttemptQuizSerializer
     permission_classes = [permissions.AllowAny]
 

@@ -56,7 +56,7 @@ class CourseSerializer(serializers.ModelSerializer):
 class ChapterSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Chapter
-        fields = ['id', 'course', 'title', 'description', 'video', 'chapter_duration', 'remarks']
+        fields = ['id', 'course', 'title', 'description', 'video', 'remarks']
 
     def __init__(self, *args, **kwargs):
         super(ChapterSerializer, self).__init__(*args, **kwargs)
