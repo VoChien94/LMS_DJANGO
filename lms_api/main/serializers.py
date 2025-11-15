@@ -25,27 +25,33 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = ['id','title','description']
 
 class CourseSerializer(serializers.ModelSerializer):
+    avg_rating = serializers.FloatField(read_only=True)   
+
     class Meta:
         model = models.Course
         fields = [
-                'id',
-                'category',
-                'teacher',
-                'title',
-                'description', 
-                'featured_img',
-                'techs',
-                'course_chapters',
-                'related_videos',
-                'tech_list',
-                'total_enrolled_students',
-                'course_rating']
+            'id',
+            'category',
+            'teacher',
+            'title',
+            'description',
+            'featured_img',
+            'techs',
+            'course_chapters',
+            'related_videos',
+            'tech_list',
+            'total_enrolled_students',
+            'course_rating',       
+            'avg_rating',           
+        ]
+
     def __init__(self, *args, **kwargs):
         super(CourseSerializer, self).__init__(*args, **kwargs)
         request = self.context.get('request')
         self.Meta.depth = 0
         if request and request.method == 'GET':
             self.Meta.depth = 2
+
 
 class ChapterSerializer(serializers.ModelSerializer):
     class Meta:
@@ -92,16 +98,15 @@ class StudentFavoriteCourseSerializer(serializers.ModelSerializer):
 class CourseRatingSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.CourseRating
-        fields = ['id', 'course', 'student', 'rating', 'reviews', 'review_time']
-        depth = 0   
+        fields = ['id', 'course', 'student', 'rating', 'reviews', 'review_time'] 
 
     def __init__(self, *args, **kwargs):
         super(CourseRatingSerializer, self).__init__(*args, **kwargs)
         request = self.context.get('request')
+        self.Meta.depth = 0
         if request and request.method == 'GET':
-            self.Meta.depth = 1  
-        else:
-            self.Meta.depth = 0
+            self.Meta.depth = 2
+       
 
 class StudentAssignmentSerializer(serializers.ModelSerializer):
     class Meta:

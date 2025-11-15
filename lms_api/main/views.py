@@ -3,6 +3,8 @@ from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from django.db.models import Q
+from django.db.models import Avg, Value,FloatField
+from django.db.models.functions import Coalesce
 
 from rest_framework import generics, permissions, status
 from rest_framework.views import APIView
@@ -283,6 +285,19 @@ class EnrolledStudentList(generics.ListAPIView):
             print(qs.query)
             return qs
 
+class PopularCoursesList(generics.ListAPIView):
+    serializer_class = CourseSerializer
+    permission_classes = [permissions.AllowAny]
+
+    def get_queryset(self):
+        return models.Course.objects.annotate(
+            avg_rating=Coalesce(
+                Avg("courserating__rating"),
+                Value(0.0),
+                output_field=FloatField()
+            )
+        ).order_by('-avg_rating')[:4]
+
 
 
 class CourseRatingList(generics.ListCreateAPIView):
@@ -290,12 +305,36 @@ class CourseRatingList(generics.ListCreateAPIView):
     permission_classes = [permissions.AllowAny]
 
     def get_queryset(self):
-        course_id = self.kwargs.get('course_id', None)
-        if course_id:
-            course = models.Course.objects.get(pk=course_id)
-            return models.CourseRating.objects.filter(course=course)
-        else:
-            return models.CourseRating.objects.all()
+        if 'popular' in self.request.GET:
+            sql = """
+            SELECT 
+                c.id,
+                c.title,
+                c.featured_img,
+                AVG(cr.rating) as avg_rating
+            FROM main_courserating AS cr
+            INNER JOIN main_course AS c ON cr.course_id = c.id
+            GROUP BY c.id, c.title, c.featured_img
+            ORDER BY avg_rating DESC
+            LIMIT 4
+            """
+            return models.CourseRating.objects.raw(sql)
+
+        if 'all' in self.request.GET:
+            sql = """
+            SELECT 
+                c.id,
+                c.title,
+                c.featured_img,
+                AVG(cr.rating) as avg_rating
+            FROM main_courserating AS cr
+            INNER JOIN main_course AS c ON cr.course_id = c.id
+            GROUP BY c.id, c.title, c.featured_img
+            ORDER BY avg_rating DESC
+            """
+            return models.CourseRating.objects.raw(sql)
+
+
 
 
     def perform_create(self, serializer):
