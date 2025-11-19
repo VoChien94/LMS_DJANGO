@@ -42,7 +42,8 @@ class CourseSerializer(serializers.ModelSerializer):
             'tech_list',
             'total_enrolled_students',
             'course_rating',       
-            'avg_rating',           
+            'avg_rating',  
+            'course_views'        
         ]
 
     def __init__(self, *args, **kwargs):

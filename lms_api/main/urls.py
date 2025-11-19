@@ -13,6 +13,8 @@ urlpatterns = [
     #Course
     path('course/', views.CourseList.as_view()),
     path('popular-courses/', views.PopularCoursesList.as_view()),
+    path('update-view/<int:course_id>/', views.update_view),
+
 
 
     path('search-courses/<str:searchstring>', views.CourseList.as_view()),

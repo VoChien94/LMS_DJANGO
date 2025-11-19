@@ -14,6 +14,7 @@ function CourseDetail() {
   const [relatedcourseData, setrelatedcourseData] = useState([]);
   const [techListData, settechListData] = useState([]);
   const [userLoginStatus, setuserLoginStatus] = useState();
+  const [courseViews, setcourseViews] = useState(0);
   const [enrollStatus, setenrollStatus] = useState();
   const [ratingStatus, setratingStatus] = useState('');
   const [AvgRating, setAvgRating] = useState(0);
@@ -30,10 +31,16 @@ function CourseDetail() {
           setteacherData(res.data.teacher);
           setrelatedcourseData(JSON.parse(res.data.related_videos));
           settechListData(res.data.tech_list);
-          if(res.data.course_rating !='' && res.data.course_rating != null){
+          if (res.data.course_rating != '' && res.data.course_rating != null) {
             setAvgRating(res.data.course_rating)
           }
         });
+      // Update View
+      axios.get(BASE_URL + 'update-view/' + course_id +'/')
+        .then((res) => {
+          setcourseViews(res.data.views)
+        });
+
     } catch (error) {
       console.log(error);
     }
@@ -66,7 +73,7 @@ function CourseDetail() {
       console.log(error);
     }
 
-      try {
+    try {
       axios.get(BASE_URL + 'fetch-favorite-status/' + studentId + '/' + course_id)
         .then((res) => {
           if (res.data.bool === true) {
@@ -120,67 +127,67 @@ function CourseDetail() {
   }
 
   // Mark as favorite Course
-const markAsFavorite = () => {
+  const markAsFavorite = () => {
     const _formData = new FormData();
     _formData.append('course', course_id);
     _formData.append('student', studentId);
     _formData.append('status', true);
     try {
-        axios.post(BASE_URL + 'student-add-favorite-course/', _formData, {
-            headers: {
-                'content-type': 'multipart/form-data'
-            }
-        })
+      axios.post(BASE_URL + 'student-add-favorite-course/', _formData, {
+        headers: {
+          'content-type': 'multipart/form-data'
+        }
+      })
         .then((res) => {
-            if (res.status === 200 || res.status === 201) {
-                Swal.fire({
-                    title: 'This course has been added in your wish list',
-                    icon: 'success',
-                    toast: true,
-                    timer: 5000,
-                    position: 'top-right',
-                    timerProgressBar: true,
-                    showConfirmButton: false
-                });
-                setfavoriteStatus('success');
-            }
+          if (res.status === 200 || res.status === 201) {
+            Swal.fire({
+              title: 'This course has been added in your wish list',
+              icon: 'success',
+              toast: true,
+              timer: 5000,
+              position: 'top-right',
+              timerProgressBar: true,
+              showConfirmButton: false
+            });
+            setfavoriteStatus('success');
+          }
         });
     } catch (error) {
-        console.log(error);
+      console.log(error);
     }
-}
-// End
-// Remove from favorite Course
-const removeFavorite = (pk) => {
+  }
+  // End
+  // Remove from favorite Course
+  const removeFavorite = (pk) => {
     const _formData = new FormData();
     _formData.append('course', course_id);
     _formData.append('student', studentId);
     _formData.append('status', false);
     try {
-        axios.get(BASE_URL + 'student-remove-favorite-course/' + course_id + '/' + studentId, {
-            headers: {
-                'content-type': 'multipart/form-data'
-            }
-        })
+      axios.get(BASE_URL + 'student-remove-favorite-course/' + course_id + '/' + studentId, {
+        headers: {
+          'content-type': 'multipart/form-data'
+        }
+      })
         .then((res) => {
-            if (res.status === 200 || res.status === 201) {
-                Swal.fire({
-                    title: 'This course has been removed from your wish list',
-                    icon: 'success',
-                    toast: true,
-                    timer: 5000,
-                    position: 'top-right',
-                    timerProgressBar: true,
-                    showConfirmButton: false
-                });
-                setfavoriteStatus('');
-            }
+          if (res.status === 200 || res.status === 201) {
+            Swal.fire({
+              title: 'This course has been removed from your wish list',
+              icon: 'success',
+              toast: true,
+              timer: 5000,
+              position: 'top-right',
+              timerProgressBar: true,
+              showConfirmButton: false
+            });
+            setfavoriteStatus('');
+          }
         });
     } catch (error) {
-        console.log(error);
+      console.log(error);
     }
-}
-// End
+  }
+  // End
 
 
   //End
@@ -267,7 +274,7 @@ const removeFavorite = (pk) => {
             Total Enrolled: {courseData.total_enrolled_students} Student(s)
           </p>
 
-          <div className="fw-bold">
+          <p className="fw-bold">
             Rating: {AvgRating}/5
             {enrollStatus === "success" && userLoginStatus === "success" && (
               <>
@@ -288,8 +295,11 @@ const removeFavorite = (pk) => {
                 )}
               </>
             )}
-          </div>
+          </p>
+          <p className="fw-bold">
+            Views: {courseViews}
 
+          </p>
           <div
             className="modal fade"
             id="ratingModal"
@@ -373,25 +383,25 @@ const removeFavorite = (pk) => {
               </button>
             </p>
           )}
-           {userLoginStatus === "success" && favoriteStatus !=='success' &&(
+          {userLoginStatus === "success" && favoriteStatus !== 'success' && (
             <p>
               <button
                 onClick={markAsFavorite} title="Add in your favorite course list"
                 type="button"
                 className="btn btn-outline-danger"
               >
-               <i class="bi bi-heart-fill"></i>
+                <i class="bi bi-heart-fill"></i>
               </button>
             </p>
           )}
-            {userLoginStatus === "success" && favoriteStatus ==='success' &&(
+          {userLoginStatus === "success" && favoriteStatus === 'success' && (
             <p>
               <button
                 onClick={removeFavorite} title="Remove from your favorite course list"
                 type="button"
                 className="btn btn-danger"
               >
-               <i class="bi bi-heart-fill"></i>
+                <i class="bi bi-heart-fill"></i>
               </button>
             </p>
           )}

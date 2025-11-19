@@ -86,7 +86,8 @@ function Home() {
         <div className="card-footer">
           <div className="title">
             <span>Rating: {row.avg_rating?.toFixed(1) || 0}/5</span>
-            <span className="float-end">Views: 78945</span>
+          <span className="float-end">Views: {row.course_views}</span>
+
           </div>
         </div>
       </div>
