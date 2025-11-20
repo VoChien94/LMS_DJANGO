@@ -551,6 +551,7 @@ def fetch_quiz_assign_status(request, quiz_id, course_id):
     else:
         return JsonResponse({'bool': False})
 
+
     
 @method_decorator(csrf_exempt, name='dispatch')
 class AttemptQuizList(generics.ListCreateAPIView):
@@ -594,15 +595,31 @@ class QuizResultView(APIView):
                 status=status.HTTP_404_NOT_FOUND
             )
 
+        # Đếm tổng số câu hỏi
         total_questions = models.QuizQuestions.objects.filter(quiz=quiz).count()
+
+        # Đếm tổng số câu đã làm
         total_attempted_questions = models.AttempQuiz.objects.filter(
             quiz=quiz,
             student=student
         ).count()
 
+        # Lấy danh sách câu attempt
+        attempted_questions = models.AttempQuiz.objects.filter(
+            quiz=quiz,
+            student=student
+        )
+
+        # Đếm số câu đúng
+        total_correct_questions = 0
+        for attempt in attempted_questions:
+            if attempt.right_ans == attempt.question.right_ans:
+                total_correct_questions += 1
+
         return Response({
             "total_questions": total_questions,
-            "total_attempted_questions": total_attempted_questions
+            "total_attempted_questions": total_attempted_questions,
+            "total_correct_questions": total_correct_questions
         })
 
 
@@ -614,6 +631,19 @@ def fetch_quiz_attempt_status(request, quiz_id, student_id):
         return JsonResponse({'bool': True})
     else:
         return JsonResponse({'bool': False})
+    
+def fetch_quiz_result(request, quiz_id, student_id):
+    quiz = models.Quiz.objects.filter(id=quiz_id).first()
+    student = models.Student.objects.filter(id=student_id).first()
+    total_questions = models.QuizQuestions.objects.filter(quiz=quiz).count()
+    total_attempted_questions = models.AttempQuiz.objects.filter(quiz=quiz, student=student).values('student').count()
+    attempted_questions = models.AttempQuiz.objects.filter(quiz=quiz, student=student)
+
+    total_correct_questions = 0
+    for attempt in attempted_questions:
+        if attempt.right_ans == attempt.question.right_ans:
+            total_correct_questions += 1
+    return JsonResponse({'total_questions':total_questions,'total_attempted_questions':total_attempted_questions,'total_correct_questions':total_correct_questions})
 
 @method_decorator(csrf_exempt, name='dispatch')
 class StudyMaterialList(generics.ListCreateAPIView):

@@ -16,8 +16,6 @@ urlpatterns = [
     path('popular-courses/', views.PopularCoursesList.as_view()),
     path('update-view/<int:course_id>/', views.update_view),
 
-
-
     path('search-courses/<str:searchstring>', views.CourseList.as_view()),
     path('course/<int:pk>/', views.CourseDetailView.as_view()),
     #Chapter
@@ -31,7 +29,7 @@ urlpatterns = [
     # Courses Detail
     path('teacher-course-detail/<int:pk>/', views.TeacherCourseDetail.as_view()),
     #Student Testimonial
-   path('student-testimonial/', views.StudentTestimonialList.as_view()),
+    path('student-testimonial/', views.StudentTestimonialList.as_view()),
 
     # Student
     path('student/', views.StudentList.as_view()),
