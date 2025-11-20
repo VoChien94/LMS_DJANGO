@@ -14,13 +14,46 @@ from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from . import models
 from .models import Teacher, CourseCategory, Course,Chapter
 from .serializers import StudyMaterialSerializer,AttemptQuizSerializer, CourseQuizSerializer,QuestionSerializer,QuizSerializer,StudentCourseEnrollSerializer ,TeacherSerializer, CategorySerializer, CourseSerializer,ChapterSerializer,StudentSerializer,CourseRatingSerializer,TeacherDashboardSerializer,StudentFavoriteCourseSerializer, StudentAssignmentSerializer,StudentDashboardSerializer,NotificationSerializer
-
-
 class TeacherList(generics.ListCreateAPIView):
     queryset = Teacher.objects.all()
     serializer_class = TeacherSerializer
     permission_classes = [permissions.AllowAny]
     authentication_classes = [SessionAuthentication, TokenAuthentication]
+
+    def get_queryset(self):
+        
+        if 'popular' in self.request.GET:
+            sql = """
+                SELECT 
+                    t.id,
+                    t.full_name,
+                    t.email,
+                    t.password,
+                    t.qualification,
+                    t.mobile_no,
+                    t.profile_img,
+                    t.skills,
+                    COUNT(c.id) AS total_course
+                FROM main_teacher AS t
+                LEFT JOIN main_course AS c
+                    ON c.teacher_id = t.id
+                GROUP BY 
+                    t.id,
+                    t.full_name,
+                    t.email,
+                    t.password,
+                    t.qualification,
+                    t.mobile_no,
+                    t.profile_img,
+                    t.skills
+                ORDER BY total_course DESC
+            """
+            return Teacher.objects.raw(sql)
+
+        return Teacher.objects.all()
+
+
+
 
 
 class TeacherDetail(generics.RetrieveUpdateDestroyAPIView):

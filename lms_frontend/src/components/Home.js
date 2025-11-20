@@ -7,6 +7,7 @@ const BASE_URL = "http://127.0.0.1:8000/api/";
 function Home() {
   const [courseData, setCourseData] = useState([]);
   const[popularcourseData, setpopularcourseData] = useState([]);
+  const[popularteacherData, setpopularteacherData] = useState([]);
 
   // Fetch courses when page load
   useEffect(() => {
@@ -19,9 +20,17 @@ function Home() {
       console.log(error);
     }
     try {
-      axios.get(BASE_URL + "popular-courses/?result=1")
+      axios.get(BASE_URL + "popular-courses/?popular=1")
         .then((res) => {
           setpopularcourseData(res.data);
+        });
+    } catch (error) {
+      console.log(error);
+    }
+    try {
+      axios.get(BASE_URL + "popular-teachers/?popular=1")
+        .then((res) => {
+          setpopularteacherData(res.data);
         });
     } catch (error) {
       console.log(error);
@@ -106,78 +115,25 @@ function Home() {
         </Link>
       </h3>
 
-      <div className="row">
+      <div className="row mb-4">
+        {popularteacherData && popularteacherData.map((teacher, index) => (
         <div className="col-md-3">
           <div className="card">
-            <a href="#">
-              <img src="/logo512.png" className="card-img-top" alt="..." />
-            </a>
+            <Link to ={`/teacher-detail/${teacher.id}`}>
+              <img src={teacher.profile_img} className="card-img-top" alt="..." /></Link>
             <div className="card-body">
-              <h5 className="card-title">
-                <a href="#">Teacher Name</a>
+              <h5 className="card-title"><Link to ={`teacher-detail/${teacher.id}`}>{teacher.full_name}</Link>
               </h5>
             </div>
             <div className="card-footer">
               <div className="title">
-                <span>Rating: 4.5/5</span>
+                <span>Total Courses: {teacher.total_teacher_courses}</span>
               </div>
             </div>
           </div>
         </div>
-
-        <div className="col-md-3">
-          <div className="card">
-            <a href="#">
-              <img src="/logo512.png" className="card-img-top" alt="..." />
-            </a>
-            <div className="card-body">
-              <h5 className="card-title">
-                <a href="#">Teacher Name</a>
-              </h5>
-            </div>
-            <div className="card-footer">
-              <div className="title">
-                <span>Rating: 4.5/5</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="col-md-3">
-          <div className="card">
-            <a href="#">
-              <img src="/logo512.png" className="card-img-top" alt="..." />
-            </a>
-            <div className="card-body">
-              <h5 className="card-title">
-                <a href="#">Teacher Name</a>
-              </h5>
-            </div>
-            <div className="card-footer">
-              <div className="title">
-                <span>Rating: 4.5/5</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="col-md-3">
-          <div className="card">
-            <a href="#">
-              <img src="/logo512.png" className="card-img-top" alt="..." />
-            </a>
-            <div className="card-body">
-              <h5 className="card-title">
-                <a href="#">Teacher Name</a>
-              </h5>
-            </div>
-            <div className="card-footer">
-              <div className="title">
-                <span>Rating: 4.5/5</span>
-              </div>
-            </div>
-          </div>
-        </div>
+        )
+)}
       </div>
       {/* ==================== END POPULAR TEACHERS ==================== */}
 
