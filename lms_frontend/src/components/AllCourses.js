@@ -3,23 +3,34 @@ import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-const BASE_URL = "http://127.0.0.1:8000/api/";
+const BASE_URL = "http://127.0.0.1:8000/api/course/";
 
 function AllCourses() {
   const [courseData, setCourseData] = useState([]);
+  const [nextURL, setnextURL] = useState();
+  const [previousURL, setpreviousURL] = useState();
 
   // Fetch courses when page load
   useEffect(() => {
+    fetchData(BASE_URL);
+  }, []);
+
+  const paginationHandler = (URL) => {
+    fetchData(URL);
+  }
+
+  function fetchData(URL){
     try {
-      axios.get(BASE_URL + "course/")
+      axios.get(URL)
         .then((res) => {
-          setCourseData(res.data);
+         setnextURL(res.data.next)
+          setpreviousURL(res.data.previous)
+          setCourseData(res.data.results);
         });
     } catch (error) {
       console.log(error);
     }
-  }, []);
-
+  }
   return (
     <div className="container mt-3">
       {/* ====================== LATEST COURSES ====================== */}
@@ -45,31 +56,20 @@ function AllCourses() {
       {/* Pagination Start */}
       <nav aria-label="Page navigation example">
         <ul className="pagination justify-content-center">
+          {previousURL &&
           <li className="page-item">
-            <a className="page-link" href="#">
+            <button className="page-link" onClick={() => paginationHandler(previousURL)}> <i class  ="bi bi-arrow-left"></i>
               Previous
-            </a>
-          </li>
+            </button>
+          </li> 
+          }
+           {nextURL &&
           <li className="page-item">
-            <a className="page-link" href="#">
-              1
-            </a>
-          </li>
-          <li className="page-item">
-            <a className="page-link" href="#">
-              2
-            </a>
-          </li>
-          <li className="page-item">
-            <a className="page-link" href="#">
-              3
-            </a>
-          </li>
-          <li className="page-item">
-            <a className="page-link" href="#">
+            <button className="page-link" onClick={() => paginationHandler(nextURL)}> <i class="bi bi-arrow-right"></i>
               Next
-            </a>
+            </button>
           </li>
+          }
         </ul>
       </nav>
       {/* Pagination End */}

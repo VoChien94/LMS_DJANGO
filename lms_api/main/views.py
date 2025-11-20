@@ -5,6 +5,7 @@ from django.utils.decorators import method_decorator
 from django.db.models import Q
 from django.db.models import Avg, Value,FloatField
 from django.db.models.functions import Coalesce
+from rest_framework.pagination import PageNumberPagination
 
 from rest_framework import generics, permissions, status
 from rest_framework.views import APIView
@@ -14,6 +15,14 @@ from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from . import models
 from .models import Teacher, CourseCategory, Course,Chapter
 from .serializers import StudyMaterialSerializer,AttemptQuizSerializer, CourseQuizSerializer,QuestionSerializer,QuizSerializer,StudentCourseEnrollSerializer ,TeacherSerializer, CategorySerializer, CourseSerializer,ChapterSerializer,StudentSerializer,CourseRatingSerializer,TeacherDashboardSerializer,StudentFavoriteCourseSerializer, StudentAssignmentSerializer,StudentDashboardSerializer,NotificationSerializer
+
+
+class StandardResultsSetPagination(PageNumberPagination):
+    page_size = 4
+    page_size_query_param = 'page_size'
+    max_page_size = 4
+
+
 class TeacherList(generics.ListCreateAPIView):
     queryset = Teacher.objects.all()
     serializer_class = TeacherSerializer
@@ -96,6 +105,7 @@ class CategoryList(generics.ListCreateAPIView):
 class CourseList(generics.ListCreateAPIView):
     queryset = models.Course.objects.all()
     serializer_class = CourseSerializer
+    pagination_class=StandardResultsSetPagination
     permission_classes = [permissions.AllowAny]
 
     def get_queryset(self):
