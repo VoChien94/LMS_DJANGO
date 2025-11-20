@@ -635,3 +635,10 @@ def update_view(request, course_id):
     queryset.course_views += 1
     queryset.save()
     return JsonResponse({'views': queryset.course_views})
+
+class StudentTestimonialList(generics.ListAPIView):
+    queryset = models.CourseRating.objects.filter(
+        reviews__isnull=False
+    ).exclude(reviews="").order_by('-id')
+    serializer_class = CourseRatingSerializer
+    permission_classes = [permissions.AllowAny]
