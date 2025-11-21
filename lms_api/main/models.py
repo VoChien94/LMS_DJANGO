@@ -1,7 +1,7 @@
 from django.db import models
 from django.core import serializers
 import moviepy.editor as mp
-
+from django.core.mail import send_mail
 
 # =============================
 # Course Category Model
@@ -270,7 +270,7 @@ class StudyMaterial(models.Model):
 
 # FAQ Model
 class FAQ(models.Model):
-    question = models.CharField(max_length=150)
+    question = models.CharField(max_length=300)
     answer = models.TextField()
 
     def __str__(self):
@@ -278,3 +278,26 @@ class FAQ(models.Model):
 
     class Meta:
         verbose_name_plural = "16. FAQ"
+
+class Contact(models.Model):
+    full_name = models.CharField(max_length=100)
+    email = models.EmailField()
+    query_txt = models.TextField()
+    add_time=models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.query_txt
+    
+    def save(self,*args, **kwargs):
+        send_mail(
+            'Contact Query',
+            'Here is the message.',
+            'Chien@gmail.com',
+            [self.email],
+            fail_silently=False,
+            html_message=f'<p>{self.full_name}</p><p>{self.query_txt}</p>',
+        )
+        return super(Contact,self).save(*args, **kwargs)
+
+    class Meta:
+        verbose_name_plural = "17. Contact Queries"

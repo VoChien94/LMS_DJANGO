@@ -33,6 +33,9 @@ function Footer() {
             <Link to={`/page/${row.id}${row.url}`} className="nav-link px-2 text-muted">{row.title}</Link>
           </li>
         )}
+        <li className="nav-item">
+          <Link to="/contact-us" className="nav-link px-2 text-muted">Contact Us</Link>
+        </li>
       </ul>
       <p className="text-center text-muted">© 2022 Code Artisan Lab</p>
     </footer>

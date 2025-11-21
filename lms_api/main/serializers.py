@@ -231,4 +231,9 @@ class FlatPagesSerializer(serializers.ModelSerializer):
         model = FlatPage
         fields = ['id', 'title', 'content','url']
 
+class ContactSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Contact
+        fields = ['id', 'full_name','email','query_txt']
+
   

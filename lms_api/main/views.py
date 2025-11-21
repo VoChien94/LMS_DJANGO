@@ -14,7 +14,7 @@ from rest_framework.authentication import SessionAuthentication, TokenAuthentica
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from . import models
 from .models import Teacher, CourseCategory, Course,Chapter
-from .serializers import FlatPagesSerializer,FaqSerializer,StudyMaterialSerializer,AttemptQuizSerializer, CourseQuizSerializer,QuestionSerializer,QuizSerializer,StudentCourseEnrollSerializer ,TeacherSerializer, CategorySerializer, CourseSerializer,ChapterSerializer,StudentSerializer,CourseRatingSerializer,TeacherDashboardSerializer,StudentFavoriteCourseSerializer, StudentAssignmentSerializer,StudentDashboardSerializer,NotificationSerializer
+from .serializers import ContactSerializer,FlatPagesSerializer,FaqSerializer,StudyMaterialSerializer,AttemptQuizSerializer, CourseQuizSerializer,QuestionSerializer,QuizSerializer,StudentCourseEnrollSerializer ,TeacherSerializer, CategorySerializer, CourseSerializer,ChapterSerializer,StudentSerializer,CourseRatingSerializer,TeacherDashboardSerializer,StudentFavoriteCourseSerializer, StudentAssignmentSerializer,StudentDashboardSerializer,NotificationSerializer
 
 
 class StandardResultsSetPagination(PageNumberPagination):
@@ -24,7 +24,7 @@ class StandardResultsSetPagination(PageNumberPagination):
 
 
 class TeacherList(generics.ListCreateAPIView):
-    queryset = Teacher.objects.all()
+    queryset = models.Teacher.objects.all()
     serializer_class = TeacherSerializer
     permission_classes = [permissions.AllowAny]
     authentication_classes = [SessionAuthentication, TokenAuthentication]
@@ -701,3 +701,10 @@ class FlatPagesDetail(generics.RetrieveAPIView):
     queryset = FlatPage.objects.all()
     serializer_class = FlatPagesSerializer
     permission_classes = [permissions.AllowAny]
+
+
+class ContactList(generics.ListCreateAPIView):
+    queryset = models.Contact.objects.all()
+    serializer_class = ContactSerializer
+    permission_classes = [permissions.AllowAny]
+    authentication_classes = [SessionAuthentication, TokenAuthentication]
