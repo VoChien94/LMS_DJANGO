@@ -22,7 +22,7 @@ class TeacherDashboardSerializer(serializers.ModelSerializer):
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = models.CourseCategory
-        fields = ['id','title','description']
+        fields = ['id','title','description','total_courses']
 
 class CourseSerializer(serializers.ModelSerializer):
     avg_rating = serializers.FloatField(read_only=True)   

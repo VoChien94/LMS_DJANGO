@@ -13,6 +13,10 @@ class CourseCategory(models.Model):
     class Meta:
         verbose_name_plural = "2. Course Categories"
 
+    # Total Courses of this category
+    def total_courses(self):
+        return Course.objects.filter(category=self).count()
+
     def __str__(self):
         return self.title
 
@@ -57,7 +61,7 @@ class Teacher(models.Model):
 # Course Model
 # =============================
 class Course(models.Model):
-    category = models.ForeignKey(CourseCategory, on_delete=models.CASCADE)
+    category = models.ForeignKey(CourseCategory, on_delete=models.CASCADE,related_name='category_courses')
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, related_name='teacher_courses')
     title = models.CharField(max_length=150)
     description = models.TextField()

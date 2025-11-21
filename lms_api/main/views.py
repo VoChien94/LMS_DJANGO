@@ -18,9 +18,9 @@ from .serializers import StudyMaterialSerializer,AttemptQuizSerializer, CourseQu
 
 
 class StandardResultsSetPagination(PageNumberPagination):
-    page_size = 4
+    page_size = 8
     page_size_query_param = 'page_size'
-    max_page_size = 4
+    max_page_size = 8
 
 
 class TeacherList(generics.ListCreateAPIView):
@@ -117,7 +117,8 @@ class CourseList(generics.ListCreateAPIView):
 
         if 'category' in self.request.GET:
             category = self.request.GET['category']
-            qs = models.Course.objects.filter(techs__icontains=category)
+            category =models.CourseCategory.objects.filter(id=category).first()
+            qs = models.Course.objects.filter(category=category)
 
         if 'skill_name' in self.request.GET and 'teacher' in self.request.GET:
             skill_name = self.request.GET['skill_name']

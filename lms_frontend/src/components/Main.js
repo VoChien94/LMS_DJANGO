@@ -39,6 +39,7 @@ import AllChapters from "./Teacher/CourseChapters";
 import EditChapter from "./Teacher/EditChapter.js";
 import PopularCourses from "./PopularCourses";
 import PopularTeachers from "./PopularTeachers";
+import Category from "./Category";
 import CategoryCourses from "./CategoryCourses";
 import TeacherSkillCourses from "./TeacherSkillCourses";
 
@@ -99,6 +100,7 @@ function App() {
         />
         <Route path="/teacher-detail/:teacher_id" element={<TeacherDetail />} />
         <Route path="/teacher-users" element={<UserList />} />
+        
         <Route path="/all-courses" element={<AllCourses />} />
         <Route path="/all-chapters/:course_id" element={<AllChapters />} />
 
@@ -109,7 +111,9 @@ function App() {
         <Route path="/edit-chapter/:chapter_id" element={<EditChapter />} />
         <Route path="/popular-courses" element={<PopularCourses />} />
         <Route path="/popular-teachers" element={<PopularTeachers />} />
-        <Route path="/category/:category_slug" element={<CategoryCourses />} />
+        <Route path="/category" element={<Category />} />
+        <Route path="/course/:category_id/:category_slug" element={<CategoryCourses />} />
+
         <Route path="/teacher-skill-courses/:skill_name/:teacher_id" element={<TeacherSkillCourses />} />
         <Route path="/add-quiz" element={<AddQuiz />} />
         <Route path="/quiz" element={<AllQuiz />} />

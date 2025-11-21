@@ -46,6 +46,9 @@ function Header() {
             <Link className="nav-link active" aria-current="page" to="/">
               Home
             </Link>
+            <Link className="nav-link" to="/category">
+              Categories
+            </Link>
             <Link className="nav-link" to="/all-courses">
               Courses
             </Link>
