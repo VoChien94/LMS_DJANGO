@@ -6,7 +6,7 @@ from django.db.models import Q
 from django.db.models import Avg, Value,FloatField
 from django.db.models.functions import Coalesce
 from rest_framework.pagination import PageNumberPagination
-
+from django.contrib.flatpages.models import FlatPage
 from rest_framework import generics, permissions, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -14,7 +14,7 @@ from rest_framework.authentication import SessionAuthentication, TokenAuthentica
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from . import models
 from .models import Teacher, CourseCategory, Course,Chapter
-from .serializers import FaqSerializer,StudyMaterialSerializer,AttemptQuizSerializer, CourseQuizSerializer,QuestionSerializer,QuizSerializer,StudentCourseEnrollSerializer ,TeacherSerializer, CategorySerializer, CourseSerializer,ChapterSerializer,StudentSerializer,CourseRatingSerializer,TeacherDashboardSerializer,StudentFavoriteCourseSerializer, StudentAssignmentSerializer,StudentDashboardSerializer,NotificationSerializer
+from .serializers import FlatPagesSerializer,FaqSerializer,StudyMaterialSerializer,AttemptQuizSerializer, CourseQuizSerializer,QuestionSerializer,QuizSerializer,StudentCourseEnrollSerializer ,TeacherSerializer, CategorySerializer, CourseSerializer,ChapterSerializer,StudentSerializer,CourseRatingSerializer,TeacherDashboardSerializer,StudentFavoriteCourseSerializer, StudentAssignmentSerializer,StudentDashboardSerializer,NotificationSerializer
 
 
 class StandardResultsSetPagination(PageNumberPagination):
@@ -688,4 +688,16 @@ class StudentTestimonialList(generics.ListAPIView):
 class FaqList(generics.ListAPIView):
     queryset = models.FAQ.objects.all()
     serializer_class = FaqSerializer
+    permission_classes = [permissions.AllowAny]
+
+@method_decorator(csrf_exempt, name='dispatch')
+class FlatPagesList(generics.ListAPIView):
+    queryset = FlatPage.objects.all()
+    serializer_class = FlatPagesSerializer
+    permission_classes = [permissions.AllowAny]
+
+@method_decorator(csrf_exempt, name='dispatch')
+class FlatPagesDetail(generics.RetrieveAPIView):
+    queryset = FlatPage.objects.all()
+    serializer_class = FlatPagesSerializer
     permission_classes = [permissions.AllowAny]

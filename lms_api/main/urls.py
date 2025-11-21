@@ -81,5 +81,8 @@ urlpatterns = [
     path('fetch-quiz-result/<int:quiz_id>/<int:student_id>/', views.QuizResultView.as_view()),
 
     path('faq/', views.FaqList.as_view()),
+    path('pages/', views.FlatPagesList.as_view()),
+    path('pages/<int:pk>/<str:page_slug>/', views.FlatPagesDetail.as_view()),
+
 
 ]

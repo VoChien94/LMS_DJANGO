@@ -1,7 +1,7 @@
 import Home from "./Home";
 import Header from "./Header";
 import Footer from "./Footer";
-import About from "./About";
+import Page from "./Page";
 import CourseDetail from "./CourseDetail";
 
 //Users
@@ -67,7 +67,6 @@ function App() {
       <Header />
       <Switch>
         <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
         <Route path="/detail/:course_id" element={<CourseDetail />} />
         <Route path="/search/:searchstring" element={<Search />} />
         <Route path="/user-login" element={<Login />} />
@@ -127,6 +126,7 @@ function App() {
         <Route path="/take-quiz/:quiz_id" element={<TakeQuiz />} />
         <Route path="/course-quiz/:course_id/take-quiz/:quiz_id" element={<TakeQuiz />} />
         <Route path="/faq" element={<FAQ />} />
+        <Route path="/page/:page_id/:page_slug" element={<Page />} />
 
       </Switch>
       <Footer />
