@@ -60,6 +60,7 @@ import CourseQuizList from './User/CourseQuizList';
 import TakeQuiz from './User/TakeQuiz';
 import Search from './Search';
 import AddStudyMaterial from './Teacher/AddStudyMaterial';
+import FAQ from './FAQ';
 function App() {
   return (
     <div className="App">
@@ -125,7 +126,7 @@ function App() {
         <Route path="/course-quiz/:course_id" element={<CourseQuizList />} />
         <Route path="/take-quiz/:quiz_id" element={<TakeQuiz />} />
         <Route path="/course-quiz/:course_id/take-quiz/:quiz_id" element={<TakeQuiz />} />
-
+        <Route path="/faq" element={<FAQ />} />
 
       </Switch>
       <Footer />

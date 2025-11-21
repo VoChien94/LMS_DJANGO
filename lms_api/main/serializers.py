@@ -219,3 +219,10 @@ class StudyMaterialSerializer(serializers.ModelSerializer):
         self.Meta.depth = 0
         if request and request.method == 'GET':
             self.Meta.depth = 1
+        
+
+class FaqSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.FAQ
+        fields = ['question', 'answer']
+  

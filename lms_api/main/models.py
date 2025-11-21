@@ -267,3 +267,14 @@ class StudyMaterial(models.Model):
 
     class Meta:
         verbose_name_plural = "15. Course Study Materials"
+
+# FAQ Model
+class FAQ(models.Model):
+    question = models.CharField(max_length=150)
+    answer = models.TextField()
+
+    def __str__(self):
+        return self.question
+
+    class Meta:
+        verbose_name_plural = "16. FAQ"

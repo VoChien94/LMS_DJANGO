@@ -14,7 +14,7 @@ from rest_framework.authentication import SessionAuthentication, TokenAuthentica
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from . import models
 from .models import Teacher, CourseCategory, Course,Chapter
-from .serializers import StudyMaterialSerializer,AttemptQuizSerializer, CourseQuizSerializer,QuestionSerializer,QuizSerializer,StudentCourseEnrollSerializer ,TeacherSerializer, CategorySerializer, CourseSerializer,ChapterSerializer,StudentSerializer,CourseRatingSerializer,TeacherDashboardSerializer,StudentFavoriteCourseSerializer, StudentAssignmentSerializer,StudentDashboardSerializer,NotificationSerializer
+from .serializers import FaqSerializer,StudyMaterialSerializer,AttemptQuizSerializer, CourseQuizSerializer,QuestionSerializer,QuizSerializer,StudentCourseEnrollSerializer ,TeacherSerializer, CategorySerializer, CourseSerializer,ChapterSerializer,StudentSerializer,CourseRatingSerializer,TeacherDashboardSerializer,StudentFavoriteCourseSerializer, StudentAssignmentSerializer,StudentDashboardSerializer,NotificationSerializer
 
 
 class StandardResultsSetPagination(PageNumberPagination):
@@ -682,4 +682,10 @@ class StudentTestimonialList(generics.ListAPIView):
         reviews__isnull=False
     ).exclude(reviews="").order_by('-id')
     serializer_class = CourseRatingSerializer
+    permission_classes = [permissions.AllowAny]
+
+@method_decorator(csrf_exempt, name='dispatch')
+class FaqList(generics.ListAPIView):
+    queryset = models.FAQ.objects.all()
+    serializer_class = FaqSerializer
     permission_classes = [permissions.AllowAny]

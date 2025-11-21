@@ -80,6 +80,6 @@ urlpatterns = [
     path('attempted-quiz/<int:quiz_id>/', views.AttemptQuizList.as_view()),
     path('fetch-quiz-result/<int:quiz_id>/<int:student_id>/', views.QuizResultView.as_view()),
 
-
+    path('faq/', views.FaqList.as_view()),
 
 ]
