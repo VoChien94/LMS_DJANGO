@@ -56,7 +56,7 @@ urlpatterns = [
     path('update-assignment/<int:pk>/', views.UpdateAssignment.as_view()),
     path('student/fetch-all-notifications/<int:student_id>/', views.NotificationList.as_view()),
     path('save-notification/', views.NotificationList.as_view()),
-
+    path('verify-student/<int:student_id>/', views.verify_student_via_otp),
     #Quiz Start
     path('quiz/', views.QuizList.as_view()),
     path('teacher-quiz/<int:teacher_id>/', views.TeacherQuizList.as_view()),

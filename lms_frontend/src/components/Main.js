@@ -63,6 +63,7 @@ import TakeQuiz from './User/TakeQuiz';
 import Search from './Search';
 import AddStudyMaterial from './Teacher/AddStudyMaterial';
 import FAQ from './FAQ';
+import VerifyStudent from "./User/VerifyStudent";
 function App() {
   return (
     <div className="App">
@@ -84,6 +85,7 @@ function App() {
         <Route path="/teacher-logout" element={<TeacherLogout />} />
         <Route path="/teacher-register" element={<TeacherRegister />} />
         <Route path="/verify-teacher/:teacher_id" element={<VerifyTeacher />} />
+        <Route path="/verify-student/:student_id" element={<VerifyStudent />} />
         <Route path="/teacher-dashboard" element={<TeacherDashboard />} />
         <Route path="/add-course" element={<AddCourse />} />
         <Route path="/edit-course/:course_id" element={<EditCourse />} />
