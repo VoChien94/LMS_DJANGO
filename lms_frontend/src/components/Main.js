@@ -18,6 +18,7 @@ import ProfileSetting from "./User/ProfileSetting";
 import ChangePassword from "./User/ChangePassword";
 import UserStudyMaterials from "./User/UserStudyMaterials";
 // Teachers
+import VerifyTeacher from "./Teacher/VerifyTeacher";
 import TeacherRegister from "./Teacher/TeacherRegister";
 import TeacherLogin from "./Teacher/TeacherLogin";
 import TeacherLogout from "./Teacher/TeacherLogout";
@@ -82,6 +83,7 @@ function App() {
         <Route path="/teacher-login" element={<TeacherLogin />} />
         <Route path="/teacher-logout" element={<TeacherLogout />} />
         <Route path="/teacher-register" element={<TeacherRegister />} />
+        <Route path="/verify-teacher/:teacher_id" element={<VerifyTeacher />} />
         <Route path="/teacher-dashboard" element={<TeacherDashboard />} />
         <Route path="/add-course" element={<AddCourse />} />
         <Route path="/edit-course/:course_id" element={<EditCourse />} />

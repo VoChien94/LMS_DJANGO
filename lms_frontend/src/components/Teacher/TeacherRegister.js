@@ -1,9 +1,10 @@
 // Import Link để điều hướng giữa các trang React
-import { Link } from "react-router-dom";
+import { Link,Navigate, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 const BASE_URL = 'http://127.0.0.1:8000/api/teacher/';
 function TeacherRegister() {
+  const navigate=useNavigate();
   const [teacherData, setteacherData] = useState({
     'full_name': '',
     'email': '',
@@ -11,7 +12,8 @@ function TeacherRegister() {
     'qualification': '',
     'mobile_no': '',
     'skills': '',
-    'status': ''
+    'status': '',
+    'otp_digit': ''
   });
   //Chang element value
   const handleChange = (event) => {
@@ -26,6 +28,7 @@ function TeacherRegister() {
   // Submit Form
   const submitForm = (event) => {
     event.preventDefault();
+    const otp_digit=Math.floor(100000 +Math.random() * 900000)
     const teacherFormData = new FormData();
     teacherFormData.append("full_name", teacherData.full_name);
     teacherFormData.append("email", teacherData.email);
@@ -33,18 +36,23 @@ function TeacherRegister() {
     teacherFormData.append("qualification", teacherData.qualification);
     teacherFormData.append("mobile_no", teacherData.mobile_no);
     teacherFormData.append("skills", teacherData.skills);
+    teacherFormData.append("otp_digit", otp_digit);
 
     try {
       axios.post(BASE_URL, teacherFormData).then((response) => {
-        setteacherData({
-          'full_name': '',
-          'email': '',
-          'password': '',
-          'qualification': '',
-          'mobile_no': '',
-          'skills': '',
-          'status': 'success'
-        })
+      console.log(response.data);
+      navigate('/verify-teacher/'+ response.data.id);
+      //window.location.href ='verify-teacher/'+ response.data.id;
+  
+  // End
+        //   'full_name': '',
+        //   'email': '',
+        //   'password': '',
+        //   'qualification': '',
+        //   'mobile_no': '',
+        //   'skills': '',
+        //   'status': 'success'
+        // })
       });
     } catch (error) {
       console.log(error);
@@ -55,11 +63,7 @@ function TeacherRegister() {
 useEffect(()=>{
   document.title="Teacher Register"
 });
- const teacherLoginStatus=localStorage.getItem('teacherLoginStatus')
-  if(teacherLoginStatus =='true'){
-      window.location.href ='teacher-dashboard';
-  }
-  // End
+
 
   return (
     // Khung chính của form (Bootstrap)
